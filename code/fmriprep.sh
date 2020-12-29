@@ -14,11 +14,10 @@ datadir=/data/projects/ds.tacsCardGame
 inputdir=${datadir}/bids
 
 # make derivatives and scratch folders if they do not exist.
-if [ ! -d ${maindir}/derivatives ]; then
-	mkdir -p ${maindir}/derivatives
+outputdir=${maindir}/derivatives
+if [ ! -d ${outputdir} ]; then
+	mkdir -p ${outputdir}
 fi
-outputdir=${maindir}/derivatives/bids
-
 scratchdir=/data/scratch/`whoami`
 if [ ! -d $scratchdir ]; then
 	mkdir -p $scratchdir
