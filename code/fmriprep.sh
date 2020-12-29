@@ -9,9 +9,8 @@ sub=$1
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 maindir="$(dirname "$scriptdir")"
 
-# bids directory (from Bart: https://github.com/klabhub/ds.tacsCardGame)
-datadir=/data/projects/ds.tacsCardGame
-inputdir=${datadir}/bids
+# base bids directory (from Bart: https://github.com/klabhub/ds.tacsCardGame)
+inputdir=/data/projects/ds.tacsCardGame
 
 # make derivatives and scratch folders if they do not exist.
 outputdir=${maindir}/derivatives
@@ -24,8 +23,9 @@ if [ ! -d $scratchdir ]; then
 fi
 
 # run fmriprep through singularity
-singularity run --cleanenv -B $inputdir:/in -B $outputdir:/out -B /data/tools/licenses:/opts -B $scratchdir:/scratch \
+# note: singularity doesn't seem to read the bids directory correctly unless it has a parent directory in the container
+singularity run --cleanenv -B ${inputdir}:/input -B $outputdir:/output -B /data/tools/licenses:/opts -B $scratchdir:/scratch \
 /data/tools/fmriprep-20.1.0.simg \
-/in /out \
+/input/bids /output \
 participant --participant_label $sub \
 --use-aroma --fs-no-reconall --fs-license-file /opts/fs_license.txt -w /scratch
