@@ -53,10 +53,10 @@ set fmri(multiple) 1
 set fmri(inputtype) 2
 
 # Carry out pre-stats processing?
-set fmri(filtering_yn) 0
+set fmri(filtering_yn) 1
 
 # Brain/background threshold, %
-set fmri(brain_thresh) 1
+set fmri(brain_thresh) 10
 
 # Critical z for design efficiency calculation
 set fmri(critical_z) 5.3
@@ -103,10 +103,10 @@ set fmri(st) 0
 set fmri(st_file) ""
 
 # BET brain extraction
-set fmri(bet_yn) 0
+set fmri(bet_yn) 1
 
 # Spatial smoothing FWHM (mm)
-set fmri(smooth) 0
+set fmri(smooth) 6
 
 # Intensity normalization
 set fmri(norm_yn) 0
@@ -115,7 +115,7 @@ set fmri(norm_yn) 0
 set fmri(perfsub_yn) 0
 
 # Highpass temporal filtering
-set fmri(temphp_yn) 1
+set fmri(temphp_yn) 0
 
 # Lowpass temporal filtering
 set fmri(templp_yn) 0
@@ -254,7 +254,7 @@ set fmri(regstandard_dof) 12
 set fmri(regstandard_nonlinear_yn) 0
 
 # Control nonlinear warp field resolution
-set fmri(regstandard_nonlinear_warpres) 10 
+set fmri(regstandard_nonlinear_warpres) 10
 
 # High pass filter cutoff
 set fmri(paradigm_hp) 100
@@ -270,7 +270,10 @@ set fmri(ncopeinputs) 0
 set feat_files(1) "DATA"
 
 # Add confound EVs text file
-set fmri(confoundevs) 0
+set fmri(confoundevs) 1
+
+# Confound EVs text file for analysis 1
+set confoundev_files(1) "CONFOUNDEVS"
 
 # EV 1 title
 set fmri(evtitle1) "R_vlpfc"
@@ -298,7 +301,7 @@ set fmri(convolve1) 3
 set fmri(convolve_phase1) 0
 
 # Apply temporal filtering (EV 1)
-set fmri(tempfilt_yn1) 1
+set fmri(tempfilt_yn1) 0
 
 # Add temporal derivative (EV 1)
 set fmri(deriv_yn1) 0
@@ -362,7 +365,7 @@ set fmri(convolve2) 3
 set fmri(convolve_phase2) 0
 
 # Apply temporal filtering (EV 2)
-set fmri(tempfilt_yn2) 1
+set fmri(tempfilt_yn2) 0
 
 # Add temporal derivative (EV 2)
 set fmri(deriv_yn2) 0
@@ -426,7 +429,7 @@ set fmri(convolve3) 3
 set fmri(convolve_phase3) 0
 
 # Apply temporal filtering (EV 3)
-set fmri(tempfilt_yn3) 1
+set fmri(tempfilt_yn3) 0
 
 # Add temporal derivative (EV 3)
 set fmri(deriv_yn3) 0
@@ -490,7 +493,7 @@ set fmri(convolve4) 3
 set fmri(convolve_phase4) 0
 
 # Apply temporal filtering (EV 4)
-set fmri(tempfilt_yn4) 1
+set fmri(tempfilt_yn4) 0
 
 # Add temporal derivative (EV 4)
 set fmri(deriv_yn4) 0
