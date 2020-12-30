@@ -32,14 +32,6 @@ if [ ! -e $CONFOUNDEVS ]; then
 fi
 EVDIR=${maindir}/derivatives/fsl/EVfiles/sub-${sub}/${TASK}/run-0${run}
 
-# check for empty EVs (extendable to other studies)
-MISSED_TRIAL=${EVDIR}_missed_trial.txt
-if [ -e $MISSED_TRIAL ]; then
-	EV_SHAPE=3
-else
-	EV_SHAPE=10
-fi
-
 # if network (ecn or dmn), do nppi; otherwise, do activation or seed-based ppi
 if [ "$ppi" == "ecn" -o  "$ppi" == "dmn" ]; then
 
@@ -77,7 +69,7 @@ if [ "$ppi" == "ecn" -o  "$ppi" == "dmn" ]; then
 	fi
 
 	# create template and run analyses
-	ITEMPLATE=${maindir}/templates/L1_task-${TASK}_model-01_type-nppi.fsf
+	ITEMPLATE=${maindir}/templates/L1_template-m01_netppi.fsf
 	OTEMPLATE=${MAINOUTPUT}/L1_task-${TASK}_model-01_seed-${ppi}_run-0${run}.fsf
 	sed -e 's@OUTPUT@'$OUTPUT'@g' \
 	-e 's@DATA@'$DATA'@g' \
@@ -118,7 +110,7 @@ else # otherwise, do activation and seed-based ppi
 	fi
 
 	# create template and run analyses
-	ITEMPLATE=${maindir}/templates/L1_task-${TASK}_model-01_type-${TYPE}.fsf
+	ITEMPLATE=${maindir}/templates/L1_template-m01_${TYPE}.fsf
 	OTEMPLATE=${MAINOUTPUT}/L1_sub-${sub}_task-${TASK}_model-01_seed-${ppi}_run-0${run}.fsf
 	if [ "$ppi" == "0" ]; then
 		sed -e 's@OUTPUT@'$OUTPUT'@g' \
@@ -128,7 +120,7 @@ else # otherwise, do activation and seed-based ppi
 		<$ITEMPLATE> $OTEMPLATE
 	else
 		PHYS=${MAINOUTPUT}/ts_task-${TASK}_mask-${ppi}_run-0${run}.txt
-		MASK=${maindir}/masks/seed-${ppi}_trust.nii.gz
+		MASK=${maindir}/masks/${ppi}.nii.gz
 		fslmeants -i $DATA -o $PHYS -m $MASK
 		sed -e 's@OUTPUT@'$OUTPUT'@g' \
 		-e 's@DATA@'$DATA'@g' \
