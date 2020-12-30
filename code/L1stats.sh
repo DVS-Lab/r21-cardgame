@@ -12,6 +12,7 @@
 # ensure paths are correct irrespective from where user runs the script
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 maindir="$(dirname "$scriptdir")"
+logs=$maindir/logs
 
 # study-specific inputs
 TASK=cardgame
@@ -25,12 +26,13 @@ ppi=$3 # 0 for activation, otherwise seed region or network
 MAINOUTPUT=${maindir}/derivatives/fsl/sub-${sub}
 mkdir -p $MAINOUTPUT
 DATA=${maindir}/derivatives/fmriprep/sub-${sub}/func/sub-${sub}_task-${TASK}_run-${run}_space-MNI152NLin2009cAsym_desc-preproc_bold.nii.gz
+NVOLUMES=`fslnvols ${DATA}`
 CONFOUNDEVS=${maindir}/derivatives/fsl/confounds/sub-${sub}/sub-${sub}_task-${TASK}_run-${run}_desc-fslConfounds.tsv
 if [ ! -e $CONFOUNDEVS ]; then
-	echo "missing: $CONFOUNDEVS " >> ${maindir}/re-runL1.log
+	echo "missing: $CONFOUNDEVS " >> ${logs}/re-runL1.log
 	exit # exiting to ensure nothing gets run without confounds
 fi
-EVDIR=${maindir}/derivatives/fsl/EVfiles/sub-${sub}/${TASK}/run-0${run}
+EVDIR=${maindir}/derivatives/fsl/EVfiles/sub-${sub}/run-0${run}
 
 # if network (ecn or dmn), do nppi; otherwise, do activation or seed-based ppi
 if [ "$ppi" == "ecn" -o  "$ppi" == "dmn" ]; then
@@ -40,7 +42,7 @@ if [ "$ppi" == "ecn" -o  "$ppi" == "dmn" ]; then
 	if [ -e ${OUTPUT}.feat/cluster_mask_zstat1.nii.gz ]; then
 		exit
 	else
-		echo "missing: $OUTPUT " >> ${maindir}/re-runL1.log
+		echo "missing: $OUTPUT " >> ${logs}/re-runL1.log
 		rm -rf ${OUTPUT}.feat
 	fi
 
@@ -72,6 +74,7 @@ if [ "$ppi" == "ecn" -o  "$ppi" == "dmn" ]; then
 	ITEMPLATE=${maindir}/templates/L1_template-m01_netppi.fsf
 	OTEMPLATE=${MAINOUTPUT}/L1_task-${TASK}_model-01_seed-${ppi}_run-0${run}.fsf
 	sed -e 's@OUTPUT@'$OUTPUT'@g' \
+	-e 's@NVOLUMES@'$NVOLUMES'@g' \
 	-e 's@DATA@'$DATA'@g' \
 	-e 's@EVDIR@'$EVDIR'@g' \
 	-e 's@MISSED_TRIAL@'$MISSED_TRIAL'@g' \
@@ -105,7 +108,7 @@ else # otherwise, do activation and seed-based ppi
 	if [ -e ${OUTPUT}.feat/cluster_mask_zstat1.nii.gz ]; then
 		exit
 	else
-		echo "missing: $OUTPUT " >> ${maindir}/re-runL1.log
+		echo "missing: $OUTPUT " >> ${logs}/re-runL1.log
 		rm -rf ${OUTPUT}.feat
 	fi
 
@@ -117,6 +120,7 @@ else # otherwise, do activation and seed-based ppi
 		-e 's@DATA@'$DATA'@g' \
 		-e 's@EVDIR@'$EVDIR'@g' \
 		-e 's@CONFOUNDEVS@'$CONFOUNDEVS'@g' \
+		-e 's@NVOLUMES@'$NVOLUMES'@g' \
 		<$ITEMPLATE> $OTEMPLATE
 	else
 		PHYS=${MAINOUTPUT}/ts_task-${TASK}_mask-${ppi}_run-0${run}.txt
@@ -127,6 +131,7 @@ else # otherwise, do activation and seed-based ppi
 		-e 's@EVDIR@'$EVDIR'@g' \
 		-e 's@PHYS@'$PHYS'@g' \
 		-e 's@CONFOUNDEVS@'$CONFOUNDEVS'@g' \
+		-e 's@NVOLUMES@'$NVOLUMES'@g' \
 		<$ITEMPLATE> $OTEMPLATE
 	fi
 	feat $OTEMPLATE

@@ -3,9 +3,10 @@
 # ensure paths are correct irrespective from where user runs the script
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 basedir="$(dirname "$scriptdir")"
+logs=$maindir/logs
 
 # remove previous log. this is mainly useful when re-running everything to check for completion
-rm -rf ${basedir}/re-runL1.log
+rm -rf ${logs}/re-runL1.log
 
 # analyses we are doing; these define input/output paths in the L1stats.sh script
 for ppi in 0 TPJ VLPFC ecn dmn; do # putting 0 first will indicate "activation"
