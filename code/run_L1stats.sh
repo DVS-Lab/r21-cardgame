@@ -14,7 +14,7 @@ for ppi in 0 TPJ VLPFC ecn dmn; do # putting 0 first will indicate "activation"
 	# loops through the subject/run list
 	cat ${scriptdir}/runcount.tsv |
 	while read $subrun; do
-		set -- $a
+		set -- $subrun
 		sub=$1
 		nruns=$2
 
