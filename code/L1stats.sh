@@ -14,17 +14,12 @@ scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 maindir="$(dirname "$scriptdir")"
 
 # study-specific inputs
-TASK=trust
-sm=6
+TASK=cardgame
+sm=6 # this is already hard coded into all fsf files
 sub=$1
 run=$2
 ppi=$3 # 0 for activation, otherwise seed region or network
 
-# list of exclusions/skips (study specific)
-if [ $sub -eq 150 -a $run -eq 2 ]; then
-	echo "participant fell asleep. skip run"
-	exit
-fi
 
 # set inputs and general outputs (should not need to chage across studies in Smith Lab)
 MAINOUTPUT=${maindir}/derivatives/fsl/sub-${sub}
@@ -64,7 +59,7 @@ if [ "$ppi" == "ecn" -o  "$ppi" == "dmn" ]; then
 		exit
 	fi
 	for net in `seq 0 9`; do
-		NET=${maindir}/masks/nan_rPNAS_2mm_net000${net}.nii.gz
+		NET=${maindir}/masks/nets/rPNAS_2mm_net000${net}.nii
 		TSFILE=${MAINOUTPUT}/ts_task-${TASK}_net000${net}_nppi-${ppi}_run-0${run}.txt
 		fsl_glm -i $DATA -d $NET -o $TSFILE --demean -m $MASK
 		eval INPUT${net}=$TSFILE
@@ -129,9 +124,6 @@ else # otherwise, do activation and seed-based ppi
 		sed -e 's@OUTPUT@'$OUTPUT'@g' \
 		-e 's@DATA@'$DATA'@g' \
 		-e 's@EVDIR@'$EVDIR'@g' \
-		-e 's@MISSED_TRIAL@'$MISSED_TRIAL'@g' \
-		-e 's@EV_SHAPE@'$EV_SHAPE'@g' \
-		-e 's@SMOOTH@'$sm'@g' \
 		-e 's@CONFOUNDEVS@'$CONFOUNDEVS'@g' \
 		<$ITEMPLATE> $OTEMPLATE
 	else
@@ -141,10 +133,7 @@ else # otherwise, do activation and seed-based ppi
 		sed -e 's@OUTPUT@'$OUTPUT'@g' \
 		-e 's@DATA@'$DATA'@g' \
 		-e 's@EVDIR@'$EVDIR'@g' \
-		-e 's@MISSED_TRIAL@'$MISSED_TRIAL'@g' \
-		-e 's@EV_SHAPE@'$EV_SHAPE'@g' \
 		-e 's@PHYS@'$PHYS'@g' \
-		-e 's@SMOOTH@'$sm'@g' \
 		-e 's@CONFOUNDEVS@'$CONFOUNDEVS'@g' \
 		<$ITEMPLATE> $OTEMPLATE
 	fi
