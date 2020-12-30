@@ -23,7 +23,7 @@ nruns=`ls -1 ${inputdir}/bids/sub-${sub}/func/sub-${sub}_task-cardgame_run-0?_ev
 echo -e "$sub\t$nruns" >> ${scriptdir}/runcount.tsv
 for run in `seq $nruns`; do
 	# use tsv file that Bart generated, but check to make sure it isn't empty
-	bartfile=${inputdir}/bids/sub-${sub}/sub-${sub}_task-cardgame_run-0${run}_events.tsv
+	bartfile=${inputdir}/bids/sub-${sub}/func/sub-${sub}_task-cardgame_run-0${run}_events.tsv
 	if [ -e $bartfile ]; then
 		nlines=`cat $bartfile | wc -l`
 		if [ $nlines -gt 1 ]; then
