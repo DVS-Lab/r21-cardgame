@@ -3,6 +3,7 @@
 # ensure paths are correct irrespective from where user runs the script
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 maindir="$(dirname "$scriptdir")"
+logs=$maindir/logs
 
 # script input
 sub=$1
@@ -29,9 +30,9 @@ for run in `seq $nruns`; do
 			# You need BIDSto3col on your computer. Try git clone https://github.com/bids-standard/bidsutils
 			bash /data/tools/bidsutils/BIDSto3col/BIDSto3col.sh $bartfile ${output}/run-0${run}
 		else
-			echo "not enough lines: ${bartfile}" >> badformat_tsv.log
+			echo "not enough lines: ${bartfile}" >> $logs/badformat_tsv.log
 		fi
 	else
-		echo "missing file: ${bartfile}" >> missing_tsv.log
+		echo "missing file: ${bartfile}" >> $logs/missing_tsv.log
 	fi
 done
