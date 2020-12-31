@@ -27,8 +27,8 @@ fi
 singularity run --cleanenv -B ${inputdir}:/input -B $outputdir:/output -B /data/tools/licenses:/opts -B $scratchdir:/scratch \
 /data/tools/fmriprep-20.1.0.simg \
 /input/bids /output \
--t cardgame \ # limit to cardgame to save space, time, and memory
 participant --participant_label $sub \
+-t cardgame \ # limit to cardgame to save space, time, and memory
 --use-aroma --error-on-aroma-warnings --stop-on-first-crash \ # additional options to help with robustness
 --fs-no-reconall --fs-license-file /opts/fs_license.txt \
 -w /scratch
