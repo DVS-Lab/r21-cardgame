@@ -35,7 +35,7 @@ fi
 EVDIR=${maindir}/derivatives/fsl/EVfiles/sub-${sub}/run-0${run}
 
 # if network (ecn or dmn), do nppi; otherwise, do activation or seed-based ppi
-if [ "$ppi" == "ecn" -o  "$ppi" == "dmn" ]; then
+if [ "$ppi" == "ecn" -o "$ppi" == "dmn" ]; then
 
 	# check for output and skip existing
 	OUTPUT=${MAINOUTPUT}/L1_task-${TASK}_model-01_type-nppi-${ppi}_run-0${run}_sm-${sm}
@@ -77,8 +77,6 @@ if [ "$ppi" == "ecn" -o  "$ppi" == "dmn" ]; then
 	-e 's@NVOLUMES@'$NVOLUMES'@g' \
 	-e 's@DATA@'$DATA'@g' \
 	-e 's@EVDIR@'$EVDIR'@g' \
-	-e 's@MISSED_TRIAL@'$MISSED_TRIAL'@g' \
-	-e 's@EV_SHAPE@'$EV_SHAPE'@g' \
 	-e 's@CONFOUNDEVS@'$CONFOUNDEVS'@g' \
 	-e 's@MAINNET@'$MAINNET'@g' \
 	-e 's@OTHERNET@'$OTHERNET'@g' \
