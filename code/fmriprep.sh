@@ -29,4 +29,6 @@ singularity run --cleanenv -B ${inputdir}:/input -B $outputdir:/output -B /data/
 /input/bids /output \
 -t cardgame \ # limit to cardgame to save space, time, and memory
 participant --participant_label $sub \
---use-aroma --fs-no-reconall --fs-license-file /opts/fs_license.txt -w /scratch
+--use-aroma --error-on-aroma-warnings --stop-on-first-crash \ # additional options to help with robustness
+--fs-no-reconall --fs-license-file /opts/fs_license.txt \
+-w /scratch
