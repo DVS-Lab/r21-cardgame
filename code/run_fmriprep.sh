@@ -13,7 +13,7 @@ while read subinfo; do
 
 	# manage the number of concurrent job submissions
 	script=${basedir}/code/fmriprep.sh
-	NCORES=8
+	NCORES=4 # ran into memory issues with 8 and aroma (odd? could've been 8 * 7ish runs)
 	while [ $(ps -ef | grep -v grep | grep $script | wc -l) -ge $NCORES ]; do
 		sleep 1s
 	done
