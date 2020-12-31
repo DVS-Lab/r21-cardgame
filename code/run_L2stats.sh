@@ -2,22 +2,32 @@
 
 # ensure paths are correct irrespective from where user runs the script
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-maindir="$(dirname "$scriptdir")"
+basedir="$(dirname "$scriptdir")"
+logs=$basedir/logs
 
-# the "type" variable below is setting a path inside the main script
-for type in act nppi-dmn nppi-ecn ppi_seed-VS ppi_seed-VMPFC; do
-	for subrun in "104 5" "105 5" "106 3" "107 5" "108 5" "109 2" "110 2" "111 5" "112 5" "113 5" "115 5" "116 5" "117 5" "118 5" "120 5" "121 5" "122 5" "124 5" "125 5" "126 5" "127 5" "128 5" "129 5" "130 5" "131 5" "132 5" "133 5" "134 4" "135 5" "136 2" "137 5" "138 4" "140 5" "141 4" "142 5" "143 3" "144 2" "145 2" "147 5" "149 4" "150 5" "151 5" "152 2" "153 5" "154 2" "155 5" "156 2" "157 5" "158 5" "159 5"; do
-			set -- $subrun
-			sub=$1
-			nruns=$2
+# remove previous log. this is mainly useful when re-running everything to check for completion
+rm -rf ${logs}/re-runL2.log
+
+# analyses we are doing; these define input/output paths in the L2stats.sh script
+for analysisinfo in "type-nppi-dmn 28" "type-nppi-ecn 28" "type-act 9" "type-ppi-TPJ 19" "type-ppi-VLPFC 19"; do
+	set -- ${analysisinfo}
+	analysis=$1
+	ncopes=$2
+
+	# loops through the subject/run list
+	cat ${scriptdir}/runcount.tsv |
+	while read subruninfo; do
+		set -- ${subruninfo}
+		sub=$1
+		nruns=$2
 
 			# Manages the number of jobs and cores
-	  	SCRIPTNAME=${maindir}/code/L2stats.sh
-	  	NCORES=25
+	  	SCRIPTNAME=${basedir}/code/L2stats.sh
+	  	NCORES=20
 	  	while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 	    		sleep 1s
 	  	done
-	  	bash $SCRIPTNAME $sub $nruns $type &
+	  	bash $SCRIPTNAME $sub $nruns $analysis $ncopes &
 	  	sleep 1s
 
 	done
