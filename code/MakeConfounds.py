@@ -15,7 +15,7 @@ import re
 # check arg (input path)
 parser = argparse.ArgumentParser(description='Give me a path to your fmriprep output')
 group = parser.add_mutually_exclusive_group(required=True)
-group.add_argument('--fmriprepDir',default=None, type=str,help="This is the full path to your fmriprep dir")
+group.add_argument('--fmriprepDir',default="derivatives/fmriprep", type=str,help="This is the full path to your fmriprep dir")
 args = parser.parse_args()
 fmriprep_path = args.fmriprepDir
 
