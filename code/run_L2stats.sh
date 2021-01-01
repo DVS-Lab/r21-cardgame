@@ -9,7 +9,7 @@ logs=$basedir/logs
 rm -rf ${logs}/re-runL2.log
 
 # analyses we are doing; these define input/output paths in the L2stats.sh script
-for analysisinfo in "type-nppi-dmn 28" "type-nppi-ecn 28" "type-act 9" "type-ppi-TPJ 19" "type-ppi-VLPFC 19"; do
+for analysisinfo in "type-nppi-dmn 28" "type-nppi-ecn 28" "type-act 9" "type-ppi_seed-TPJ 19" "type-ppi_seed-VLPFC 19"; do
 	set -- ${analysisinfo}
 	analysis=$1
 	ncopes=$2
