@@ -52,7 +52,7 @@ for task in df_full.task.unique():
 
 
     # generate output files
-    outdir=derivatives_path+"mriqc-extractions"
+    outdir=derivatives_path+"mriqc-extractions/"
     if not os.path.exists(outdir):
     	os.makedirs(outdir)
 
@@ -83,4 +83,4 @@ for task in df_full.task.unique():
     df_out=df_out.sort_values(by='Sub_num')
     outfile="outliers_task-%s_customSubOutlier.tsv"%(task)
     output=outdir+outfile
-    df_out.to_csv(outfile,sep='\t',index=False)
+    df_out.to_csv(output,sep='\t',index=False)
