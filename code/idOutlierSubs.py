@@ -59,7 +59,8 @@ for task in df_full.task.unique():
     # These are the identities of outlier runs
     outfile="outliers_task-%s_runinfo.tsv"%(task)
     output=outdir+outfile
-    print(df[df['outlier_run_Custom1']==True])
+    # print(df[df['outlier_run_Custom1']==True])
+    df=df.sort_values(by='Sub')
     df.to_csv(output,sep='\t',index=False)
 
     # separate good subjects (GS) and bad subject (BS)
@@ -73,6 +74,7 @@ for task in df_full.task.unique():
     df_cov=df_cov.groupby(by='Sub').mean().reset_index().rename(columns={'index':'Sub'})
     df_cov=df_cov[['Sub']+keys]
     df_cov[['tsnr','fd_mean']]=df_cov[['tsnr','fd_mean']].apply(zscore)
+    df_cov=df_cov.sort_values(by='Sub')
     outfile="outliers_task-%s_covariates.tsv"%(task)
     output=outdir+outfile
     df_cov.to_csv(output,sep='\t',index=False)
