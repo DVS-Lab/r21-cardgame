@@ -8,7 +8,7 @@ import re # re will let us parse text in a nice way
 
 # set paths and build file lists
 mriqc_dir = "/data/projects/ds.tacsCardGame/derivatives/mriqc/"
-derivatives_path = "/data/projects/r21-cardgame/derivatives"
+derivatives_path = "/data/projects/r21-cardgame/derivatives/"
 bids_dir = "/data/projects/ds.tacsCardGame/bids"
 all_subs = [s for s in os.listdir(bids_dir) if s.startswith('sub')]
 j_files = [os.path.join(root, f) for root,dirs,files in os.walk(mriqc_dir)
