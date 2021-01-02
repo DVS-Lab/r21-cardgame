@@ -26,7 +26,7 @@ for analysistype in type-nppi-dmn type-nppi-ecn type-act type-ppi_seed-TPJ type-
 			continue
 		fi
 
-		NCORES=12 # per script; each script will launch 3 feat or randomise processes
+		NCORES=7
 		SCRIPTNAME=${maindir}/code/L3stats.sh
 		while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 			sleep 1s
