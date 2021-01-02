@@ -36,7 +36,7 @@ for task in df_full.task.unique():
     df=df_full[df_full['task']==task]
     mriqc_subs = np.setdiff1d(all_subs,df.Sub.unique())
     # yields the elements in `list_2` that are NOT in `list_1`
-    print("%s are missing MRIQC OUTPUT"%(mriqc_subs))
+    print("%s are missing MRIQC OUTPUT for task %s"%(mriqc_subs,task))
 
     #find the interquartile range and define fences for boxplot
     Q1=df[keys].quantile(0.25)
@@ -59,7 +59,7 @@ for task in df_full.task.unique():
     # These are the identities of outlier runs
     outfile="outliers_task-%s_runinfo.tsv"%(task)
     output=outdir+outfile
-    # print(df[df['outlier_run_Custom1']==True])
+    print(df[df['outlier_run_Custom1']==True])
     df=df.sort_values(by='Sub')
     df.to_csv(output,sep='\t',index=False)
 
