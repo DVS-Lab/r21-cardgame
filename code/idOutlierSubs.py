@@ -1,24 +1,22 @@
-import numpy as np 
+import numpy as np
 import json
 import pandas as pd
 import os
-import itertools
-import argparse
 from scipy.stats import zscore
 
-
-mriqc_dir = "/data/projects/srndna-all/derivatives/mriqc/"
+# get paths and build sub lists
+mriqc_dir = "/data/projects/ds.tacsCardGame/derivatives/mriqc/"
 path_derivative=mriqc_dir[:-5]
-bids_der="/data/projects/srndna-all/bids"
+bids_der="/data/projects/ds.tacsCardGame/bids"
 all_subs=[s for s in os.listdir(bids_der) if s.startswith('sub')]
 
 j_files=[os.path.join(root, f) for root,dirs,files in os.walk(mriqc_dir)
          for f in files if f.endswith('bold.json')]
 
-shared_exclude=['sub-111','sub-118','sub-129','sub-135','sub-138','sub-149']
 
 keys=['tsnr','fd_mean'] # the IQM's we might care about
 sr=['Sub','task','run']
+
 # Open an empty array and fill it. Do this it is a good idea
 row=[]
 import re # re will let us parse text in a nice way
@@ -30,7 +28,7 @@ for i in range(len(j_files)):
         data = json.load(f)
     now=[sub,task,run]+[data[x]for x in keys] #the currently created row in the loop
     row.append(now) #through that row on the end
-    
+
 df_full=pd.DataFrame(row,columns=sr+keys) # imaybe later try to do multi-indexing later with sub and run as the index?
 
 
@@ -54,15 +52,7 @@ for task in df_full.task.unique():
 
     outList=(df[keys]<upper)&(df[keys]>lower)#Here we make comparisons
     df['outlier_run_Custom1']=~outList.all(axis='columns')
-    
-    #HERE's WHERE The MANUAL SUBS AND RUNS ARE ENTERED
-    if task=='ultimatum':
-        df
-    elif task == 'trust':
-        df.loc[(df.Sub=='sub-111') & (df.run==1),['outlier_run_Custom1']]=True
-        df.loc[(df.Sub=='sub-150') & (df.run==2),['outlier_run_Custom1']]=True
-    elif task == 'sharedreward':
-        df['outlier_run_Custom1'][df.Sub.isin(shared_exclude)]=True
+
 
     #df=df.sort_values(by=sr)
     print('These are the identities outlier Runs')
