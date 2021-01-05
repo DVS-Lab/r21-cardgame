@@ -77,7 +77,7 @@ for task in df_full.task.unique():
     df_cov=df_cov.sort_values(by='Sub')
     outfile="outliers_task-%s_covariates.tsv"%(task)
     output=outdir+outfile
-    df_cov.to_csv(output,sep='\t',index=False)
+    df_cov.to_csv(output,sep='\t',index=False,float_format='%.4f')
 
     # output custom covariates
     df_out=df[df.Sub.isin(BS)]
@@ -85,4 +85,4 @@ for task in df_full.task.unique():
     df_out=df_out.sort_values(by='Sub_num')
     outfile="outliers_task-%s_customSubOutlier.tsv"%(task)
     output=outdir+outfile
-    df_out.to_csv(output,sep='\t',index=False)
+    df_out.to_csv(output,sep='\t',index=False,float_format='%.4f')
