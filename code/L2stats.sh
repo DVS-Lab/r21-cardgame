@@ -14,12 +14,6 @@ analysis=$3
 ncopes=$4
 
 
-# exclude L2 (only one good run):
-# sub-218, sub-212, sub-238
-if [[ $sub -eq 212 || $sub -eq 218 || $sub -eq 238 ]]; then # double square brackets to hold the arguments
-	echo "skipping: ${OUTPUT}" >> $logs/re-runL2.log
-	exit
-fi
 
 # set exclusions/exceptions
 # sub-232	cardgame	4	27.80231285	0.710906355	TRUE --> 4 runs originally
@@ -47,6 +41,13 @@ OUTPUT=${MAINOUTPUT}/L2_task-${task}_model-01_${analysis}_sm-${sm}
 if [ -e ${OUTPUT}.gfeat/cope${ncopes}.feat/cluster_mask_zstat1.nii.gz ]; then
 	echo "skipping existing output"
 else
+	# exclude L2 (only one good run):
+	# sub-218, sub-212, sub-238
+	if [[ $sub -eq 212 || $sub -eq 218 || $sub -eq 238 ]]; then # double square brackets to hold the arguments
+		echo "skipping: ${OUTPUT}" >> $logs/re-runL2.log
+		exit
+	fi
+
 	echo "re-doing: ${OUTPUT}" >> $logs/re-runL2.log
 	rm -rf ${OUTPUT}.gfeat
 
