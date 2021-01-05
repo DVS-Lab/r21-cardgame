@@ -13,12 +13,34 @@ nruns=$2
 analysis=$3
 ncopes=$4
 
+
+# exclude L2 (only one good run):
+# sub-218, sub-212, sub-238
+if [[ $sub -eq 212 || $sub -eq 218 || $sub -eq 238 ]]; then # double square brackets to hold the arguments
+	echo "skipping: ${OUTPUT}" >> $logs/re-runL2.log
+	exit
+fi
+
+# set exclusions/exceptions
+# sub-232	cardgame	4	27.80231285	0.710906355	TRUE --> 4 runs originally
+# sub-217	cardgame	2	30.16802406	0.520016119	TRUE --> 3 runs originally
 # subjects have a max of 4 runs
 MAINOUTPUT=${maindir}/derivatives/fsl/sub-${sub}
-INPUT1=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-01_sm-${sm}.feat
-INPUT2=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-02_sm-${sm}.feat
-INPUT3=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-03_sm-${sm}.feat
-INPUT4=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-04_sm-${sm}.feat
+if [ $sub -eq 217 ]; then
+	nruns=2
+	INPUT1=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-01_sm-${sm}.feat
+	INPUT2=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-03_sm-${sm}.feat
+elif [ $sub -eq 232 ]; then
+	nruns=3
+	INPUT1=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-01_sm-${sm}.feat
+	INPUT2=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-02_sm-${sm}.feat
+	INPUT3=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-03_sm-${sm}.feat
+else
+	INPUT1=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-01_sm-${sm}.feat
+	INPUT2=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-02_sm-${sm}.feat
+	INPUT3=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-03_sm-${sm}.feat
+	INPUT4=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-04_sm-${sm}.feat
+fi
 
 # check for existing output and re-do if missing/incomplete
 OUTPUT=${MAINOUTPUT}/L2_task-${task}_model-01_${analysis}_sm-${sm}
