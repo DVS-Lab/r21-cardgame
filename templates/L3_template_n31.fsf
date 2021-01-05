@@ -284,7 +284,7 @@ set feat_files(6) "BASEDIR/derivatives/fsl/sub-210/L2_task-cardgame_model-01_REP
 set feat_files(7) "BASEDIR/derivatives/fsl/sub-211/L2_task-cardgame_model-01_REPLACEME_sm-6.gfeat/copeCOPENUM.feat/stats/cope1.nii.gz"
 
 # 4D AVW data or FEAT directory (8)
-set feat_files(8) "BASEDIR/derivatives/fsl/sub-213/L1_task-cardgame_model-01_REPLACEME_run-01_sm-6.feat/stats/copeCOPENUM.nii.gz"
+set feat_files(8) "BASEDIR/derivatives/fsl/sub-212/L1_task-cardgame_model-01_REPLACEME_run-01_sm-6.feat/stats/copeCOPENUM.nii.gz"
 
 # 4D AVW data or FEAT directory (9)
 set feat_files(9) "BASEDIR/derivatives/fsl/sub-213/L2_task-cardgame_model-01_REPLACEME_sm-6.gfeat/copeCOPENUM.feat/stats/cope1.nii.gz"
