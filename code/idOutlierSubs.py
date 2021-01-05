@@ -61,7 +61,7 @@ for task in df_full.task.unique():
     output=outdir+outfile
     print(df[df['outlier_run_Custom1']==True])
     df=df.sort_values(by='Sub')
-    df.to_csv(output,sep='\t',index=False)
+    df.to_csv(output,sep='\t',index=False,float_format='%.4f')
 
     # separate good subjects (GS) and bad subject (BS)
     GS=df[df['outlier_run_Custom1']==False]
