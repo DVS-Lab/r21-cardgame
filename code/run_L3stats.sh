@@ -8,6 +8,9 @@
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 maindir="$(dirname "$scriptdir")"
 
+# delete old logs
+logs=$maindir/logs
+rm -rf $logs/re-runL3.log
 
 # this loop defines the different types of analyses that will go into the group comparisons
 for analysistype in type-nppi-dmn type-nppi-ecn type-act type-ppi_seed-TPJ type-ppi_seed-VLPFC; do
