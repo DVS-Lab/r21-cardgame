@@ -9,7 +9,7 @@ logs=$basedir/logs
 rm -rf ${logs}/re-runL1.log
 
 # analyses we are doing; these define input/output paths in the L1stats.sh script
-for ppi in 0 TPJ VLPFC ecn dmn; do # putting 0 first will indicate "activation"
+for ppi in 0 bilateralVLPFC leftVLPFC rightVLPFC preCun leftVS rightVS bilateralVS ecn dmn; do # putting 0 first will indicate "activation"
 
 	# loops through the subject/run list
 	cat ${scriptdir}/runcount.tsv |
