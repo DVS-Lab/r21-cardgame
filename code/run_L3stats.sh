@@ -30,7 +30,7 @@ for analysistype in type-ppi_seed-bilateralVLPFC type-ppi_seed-leftVLPFC type-pp
 			continue
 		fi
 
-		NCORES=7
+		NCORES=25
 		SCRIPTNAME=${maindir}/code/L3stats.sh
 		while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 			sleep 1s
