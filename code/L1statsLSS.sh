@@ -34,7 +34,7 @@ if [ ! -e $CONFOUNDEVS ]; then
 fi
 
 # EV files
-EVDIR=${maindir}/derivatives/fsl/EVfiles/sub-${sub}/singletrial/run-0${run}/run-0${run}
+EVDIR=${maindir}/derivatives/fsl/EVfiles/sub-${sub}/singletrial/run-0${run}
 SINGLETRIAL=${EVDIR}/run-0${run}_SingleTrial${trial}.txt
 OTHERTRIAL=${EVDIR}/run-0${run}_OtherTrials${trial}.txt
 
