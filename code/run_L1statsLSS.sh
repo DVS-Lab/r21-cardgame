@@ -9,16 +9,24 @@ logs=$basedir/logs
 rm -rf ${logs}/re-runL1.log
 
 # loops through the subject/run list
-cat ${scriptdir}/runcount.tsv |
+cat ${scriptdir}/runcount_excluded.tsv |
 while read subrun; do
 	set -- ${subrun}
 	sub=$1
 	nruns=$2
-		
+
 	# analyses we are doing; these define input/output paths in the L1stats.sh script
 	for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 first will indicate "activation"
 
 		for run in `seq ${nruns}`; do
+
+			# skip the bad runs
+			if [ $sub -eq 217 ] && [ $run -eq 2 ]; then
+				continue
+			elif [ $sub -eq 232 ] && [ $run -eq 4 ]; then
+				continue
+			fi
+
 			for trial in `seq 64`; do
 			  	# Manages the number of jobs and cores
 			  	SCRIPTNAME=${basedir}/code/L1statsLSS.sh
@@ -27,7 +35,6 @@ while read subrun; do
 			    		sleep 1s
 			  	done
 			  	bash $SCRIPTNAME $sub $run $ppi $trial &
-			  	sleep 1s
 			done
 	  done
 
