@@ -17,8 +17,13 @@ for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 fir
 		set -- ${subrun}
 		sub=$1
 		nruns=$2
-		echo "running: sub-${sub} on conn-${ppi}..."
+		echo "running: sub-${sub} on conn-${ppi} at `date`..."
 
+		# skip for initial testing
+		if [ $sub -gt 221 ]; then
+			continue
+		fi
+		
 		for run in `seq ${nruns}`; do
 
 			# skip the bad runs
@@ -28,10 +33,6 @@ for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 fir
 				continue
 			fi
 
-			# skip for initial testing
-			if [ $sub -gt 220 ]; then
-				continue
-			fi
 
 			# common directory for zstat outputs
 			MAINOUTPUT=${maindir}/derivatives/fsl/sub-${sub}
