@@ -28,12 +28,71 @@ for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 fir
 				continue
 			fi
 
+			# skip for initial testing
+			if [ $sub -gt 220 ]; then
+				continue
+			fi
+
 			# common directory for zstat outputs
 			MAINOUTPUT=${maindir}/derivatives/fsl/sub-${sub}
 			zoutdir=${MAINOUTPUT}/LSS-images_task-${TASK}_model-02_conn-${ppi}_run-0${run}_sm-${sm}
 			cd $zoutdir
-			fslmerge -t sub-${sub}_run0-${run}_merged_z zstat_trial-*.nii.gz
-			#fslmeants -i $DATA -o ${outputdir}/${ROI}_type-${TYPE}_cope-${cnum_padded}.txt -m ${MASK}
+			rm sub-${sub}*.nii.gz
+			fslmerge -t sub-${sub}_run-0${run}_conn-${ppi}_merged_z zstat_trial-*.nii.gz
+
+			# output for extractions
+			out_meants=${maindir}/derivatives/singletrial/sub-${sub}
+			mkdir -p ${out_meants}
+
+			if [ ${ppi} -eq 0 ]; then
+				for mask in act-leftVLPFC act-leftVS act-rightVLPFC act-rightVS; do
+					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
+					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
+						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
+						-m ${maskfile}
+				done
+			elif [ "${ppi}" == "leftVLPFC" ]; then
+				for mask in leftVLPFCconn-DLPFC leftVLPFCconn-MPFC leftVLPFCconn-PCC; do
+					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
+					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
+						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
+						-m ${maskfile}
+				done
+			elif [ "${ppi}" == "ecn" ]; then
+				for mask in ECNconn-MPFC ECNconn-insula; do
+					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
+					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
+						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
+						-m ${maskfile}
+				done
+			elif [ "${ppi}" == "dmn" ]; then
+				mask=DMNconn-leftVS
+				maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
+				fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
+					-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
+					-m ${maskfile}
+			elif [ "${ppi}" == "bilateralVLPFC" ]; then
+				mask=bilateralVLPFCconn-parietal
+				maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
+				fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
+					-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
+					-m ${maskfile}
+			elif [ "${ppi}" == "leftVS" ]; then
+				mask=leftVSconn-visual
+				maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
+				fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
+					-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
+					-m ${maskfile}
+			elif [ "${ppi}" == "rightVS" ]; then
+				mask=rightVSconn-DLPFC
+				maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
+				fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
+					-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
+					-m ${maskfile}
+			else
+				"error: mask not found"
+			fi
+
 
 		done
 	done
