@@ -6,7 +6,6 @@ maindir="$(dirname "$scriptdir")"
 
 
 TASK=cardgame
-TYPE=act
 sm=6
 
 # analyses we are doing; these define input/output paths in the L1stats.sh script
@@ -18,6 +17,7 @@ for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 fir
 		set -- ${subrun}
 		sub=$1
 		nruns=$2
+		echo "running: sub-${sub} on conn-${ppi}..."
 
 		for run in `seq ${nruns}`; do
 
