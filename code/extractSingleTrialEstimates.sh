@@ -20,7 +20,7 @@ for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 fir
 		echo "running: sub-${sub} on conn-${ppi} at `date`..."
 
 		# skip for initial testing
-		if [ $sub -gt 221 ]; then
+		if [ $sub -gt 222 ]; then
 			continue
 		fi
 		
