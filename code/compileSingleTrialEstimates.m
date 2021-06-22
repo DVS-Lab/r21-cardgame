@@ -20,7 +20,7 @@ for i = 1:length(subrun)
         end
         
         % skip for initial testing
-        if sub > 222
+        if sub > 225
             continue
         end
         
