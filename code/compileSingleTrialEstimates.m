@@ -19,10 +19,6 @@ for i = 1:length(subrun)
             continue
         end
         
-        % skip for initial testing
-        if sub > 225
-            continue
-        end
         
         % loop through rois (n = 13) and make empty data matrix
         rois = {'act-leftVLPFC', 'act-leftVS', 'act-rightVLPFC', 'act-rightVS', 'leftVLPFCconn-DLPFC', 'leftVLPFCconn-MPFC', 'leftVLPFCconn-PCC', 'ECNconn-MPFC', 'ECNconn-insula', 'DMNconn-leftVS', 'bilateralVLPFCconn-parietal', 'leftVSconn-visual', 'rightVSconn-DLPFC'};
