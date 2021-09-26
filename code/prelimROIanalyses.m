@@ -45,6 +45,26 @@ for r = 1:length(rois)
     
 end
 
+
+% loop through rois for seed-based ppi
+rois = {'rightVSconn-DLPFC'};
+for r = 1:length(rois)
+    roi = rois{r};
+    
+    c1 = load(fullfile(roidir,[roi '_type-ppi_seed-rightVS_cope-11.txt']));
+    c2 = load(fullfile(roidir,[roi '_type-ppi_seed-rightVS_cope-12.txt']));
+    c3 = load(fullfile(roidir,[roi '_type-ppi_seed-rightVS_cope-13.txt']));
+    c4 = load(fullfile(roidir,[roi '_type-ppi_seed-rightVS_cope-14.txt']));
+    reward = [c1 c2];
+    punish = [c3 c4];
+    figure, barweb_dvs2([mean(reward); mean(punish)],[std(reward)/sqrt(length(reward)); std(punish)/sqrt(length(punish)) ])
+    axis square
+    outname = fullfile(maindir,'derivatives','imaging_plots',['nppiDMN_' roi ]);
+    cmd = ['print -depsc ' outname];
+    eval(cmd);
+    
+end
+
 % filename = ['summary_roi-' roi '.tsv'];
 % fid = fopen(filename, 'wt');
 % fprintf(fid, '%s\t%s\t%s\t%s\t%s\n', 'sub-num','Reward_VLPFC','Reward_TPJ','Punish_VLPFC','Punish_VLPFC');  % header
