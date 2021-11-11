@@ -9,7 +9,7 @@ TASK=cardgame
 sm=6
 
 # analyses we are doing; these define input/output paths in the L1stats.sh script
-for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 first will indicate "activation"
+for ppi in 0 leftVLPFC leftVS rightVS; do # putting 0 first will indicate "activation"
 
 	# loops through the subject/run list
 	cat ${scriptdir}/runcount_excluded.tsv |
@@ -23,7 +23,7 @@ for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 fir
 		if [ $sub -gt 222 ]; then
 			continue
 		fi
-		
+
 		for run in `seq ${nruns}`; do
 
 			# skip the bad runs
@@ -46,7 +46,7 @@ for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 fir
 			mkdir -p ${out_meants}
 
 			if [ "${ppi}" == "0" ]; then
-				for mask in act-leftVLPFC act-leftVS act-rightVLPFC act-rightVS; do
+				for mask in act-leftVLPFC act-PCC act-rightVLPFC act-preSMA act-thalamus act-rightParietal; do
 					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
 					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
 						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
@@ -59,25 +59,6 @@ for ppi in 0 bilateralVLPFC leftVLPFC leftVS rightVS ecn dmn; do # putting 0 fir
 						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
 						-m ${maskfile}
 				done
-			elif [ "${ppi}" == "ecn" ]; then
-				for mask in ECNconn-MPFC ECNconn-insula; do
-					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
-					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
-						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
-						-m ${maskfile}
-				done
-			elif [ "${ppi}" == "dmn" ]; then
-				mask=DMNconn-leftVS
-				maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
-				fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
-					-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
-					-m ${maskfile}
-			elif [ "${ppi}" == "bilateralVLPFC" ]; then
-				mask=bilateralVLPFCconn-parietal
-				maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
-				fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
-					-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
-					-m ${maskfile}
 			elif [ "${ppi}" == "leftVS" ]; then
 				mask=leftVSconn-visual
 				maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
