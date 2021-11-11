@@ -19,10 +19,6 @@ for ppi in 0 leftVLPFC leftVS rightVS; do # putting 0 first will indicate "activ
 		nruns=$2
 		echo "running: sub-${sub} on conn-${ppi} at `date`..."
 
-		# skip for initial testing
-		if [ $sub -gt 222 ]; then
-			continue
-		fi
 
 		for run in `seq ${nruns}`; do
 
@@ -38,8 +34,8 @@ for ppi in 0 leftVLPFC leftVS rightVS; do # putting 0 first will indicate "activ
 			MAINOUTPUT=${maindir}/derivatives/fsl/sub-${sub}
 			zoutdir=${MAINOUTPUT}/LSS-images_task-${TASK}_model-02_conn-${ppi}_run-0${run}_sm-${sm}
 			cd $zoutdir
-			rm -rf sub-${sub}*.nii.gz
-			fslmerge -t sub-${sub}_run-0${run}_conn-${ppi}_merged_z zstat_trial-*.nii.gz
+			#rm -rf sub-${sub}*.nii.gz
+			#fslmerge -t sub-${sub}_run-0${run}_conn-${ppi}_merged_z zstat_trial-*.nii.gz
 
 			# output for extractions
 			out_meants=${maindir}/derivatives/singletrial/sub-${sub}
