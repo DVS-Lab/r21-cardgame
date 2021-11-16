@@ -37,4 +37,4 @@ singularity run --cleanenv \
 -B $scratch:/scratch \
 /data/tools/mriqc-0.16.1.simg \
 /data /out \
-group -w /scratch
+participant -w /scratch
