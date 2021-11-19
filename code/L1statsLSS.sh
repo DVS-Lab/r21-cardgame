@@ -20,8 +20,8 @@ sm=6 # this is already hard coded into all fsf files
 sub=$1
 run=$2
 ppi=$3 # 0 for activation, otherwise seed region or network
-logfile=$4
 trial=`zeropad $4 2` # pad zeros
+logfile=$5
 
 # set inputs and general outputs (should not need to chage across studies in Smith Lab)
 MAINOUTPUT=${maindir}/derivatives/fsl/sub-${sub}
