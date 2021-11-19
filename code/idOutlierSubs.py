@@ -7,7 +7,7 @@ from scipy.stats import zscore
 import re # re will let us parse text in a nice way
 
 # set paths and build file lists
-mriqc_dir = "/data/projects/ds.tacsCardGame/derivatives/mriqc/"
+mriqc_dir = "/data/projects/r21-cardgame/derivatives/mriqc/"
 derivatives_path = "/data/projects/r21-cardgame/derivatives/"
 bids_dir = "/data/projects/ds.tacsCardGame/bids"
 all_subs = [s for s in os.listdir(bids_dir) if s.startswith('sub')]
@@ -65,7 +65,7 @@ for task in df_full.task.unique():
 
     # separate good subjects (GS) and bad subject (BS)
     GS=df[df['outlier_run_Custom1']==False]
-    GS=list(GS.Sub.value_counts().reset_index(name="count").query("count > 1")['index'])
+    GS=list(GS.Sub.value_counts().reset_index(name="count").query("count > 1")['index']) # more than 1 good run
     BS=df[~df.Sub.isin(GS)]['Sub']
 
     # output covariates for group-level models

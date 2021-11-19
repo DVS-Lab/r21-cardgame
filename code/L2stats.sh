@@ -3,7 +3,6 @@
 # ensure paths are correct irrespective from where user runs the script
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 maindir="$(dirname "$scriptdir")"
-logs=$maindir/logs
 
 # setting inputs and common variables; these define paths below
 sm=6
@@ -12,7 +11,7 @@ sub=$1
 nruns=$2
 analysis=$3
 ncopes=$4
-
+logfile=$5
 
 
 # set exclusions/exceptions
@@ -44,11 +43,11 @@ else
 	# exclude L2 (only one good run):
 	# sub-218, sub-212, sub-238
 	if [[ $sub -eq 212 || $sub -eq 218 || $sub -eq 238 ]]; then # double square brackets to hold the arguments
-		echo "skipping: ${OUTPUT}" >> $logs/re-runL2.log
+		echo "skipping: ${OUTPUT}" >> $logfile
 		exit
 	fi
 
-	echo "re-doing: ${OUTPUT}" >> $logs/re-runL2.log
+	echo "running: ${OUTPUT}" >> $logfile
 	rm -rf ${OUTPUT}.gfeat
 
 	# set output template and run template-specific analyses

@@ -20,6 +20,7 @@ sm=6 # this is already hard coded into all fsf files
 sub=$1
 run=$2
 ppi=$3 # 0 for activation, otherwise seed region or network
+logfile=$4
 trial=`zeropad $4 2` # pad zeros
 
 # set inputs and general outputs (should not need to chage across studies in Smith Lab)
@@ -29,7 +30,7 @@ DATA=${maindir}/derivatives/fmriprep/sub-${sub}/func/sub-${sub}_task-${TASK}_run
 NVOLUMES=`fslnvols ${DATA}`
 CONFOUNDEVS=${maindir}/derivatives/fsl/confounds/sub-${sub}/sub-${sub}_task-${TASK}_run-${run}_desc-fslConfounds.tsv
 if [ ! -e $CONFOUNDEVS ]; then
-	echo "missing: $CONFOUNDEVS " >> ${logs}/re-runL1.log
+	echo "missing: $CONFOUNDEVS " >> $logfile
 	exit # exiting to ensure nothing gets run without confounds
 fi
 
@@ -52,7 +53,7 @@ if [ "$ppi" == "ecn" -o "$ppi" == "dmn" ]; then
 	if [ -e ${zoutdir}/zstat_trial-${trial}.nii.gz ]; then
 		exit
 	else
-		echo "missing: $OUTPUT " >> ${logs}/re-runL1.log
+		echo "running: $OUTPUT " >> $logfile
 		rm -rf ${OUTPUT}.feat
 	fi
 
@@ -117,7 +118,7 @@ else # otherwise, do activation and seed-based ppi
 	if [ -e ${zoutdir}/zstat_trial-${trial}.nii.gz ]; then
 		exit
 	else
-		echo "missing: $OUTPUT " >> ${logs}/re-runL1.log
+		echo "running: $OUTPUT " >> $logfile
 		rm -rf ${OUTPUT}.feat
 	fi
 

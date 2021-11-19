@@ -3,10 +3,10 @@
 # ensure paths are correct irrespective from where user runs the script
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 basedir="$(dirname "$scriptdir")"
-logs=$basedir/logs
 
-# remove previous log. this is mainly useful when re-running everything to check for completion
-rm -rf ${logs}/re-runL2.log
+# create log file to record what we did and when
+logs=$basedir/logs
+logfile=${logs}/rerunL2_date-`date +"%FT%H%M"`.log
 
 # analyses we are doing; these define input/output paths in the L2stats.sh script
 for analysisinfo in "type-act 9"; do
@@ -29,7 +29,7 @@ for analysisinfo in "type-act 9"; do
 	  	while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 	    		sleep 1s
 	  	done
-	  	bash $SCRIPTNAME $sub $nruns $analysis $ncopes &
+	  	bash $SCRIPTNAME $sub $nruns $analysis $ncopes $logfile &
 	  	sleep 1s
 
 	done

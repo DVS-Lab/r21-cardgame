@@ -12,7 +12,6 @@
 # ensure paths are correct irrespective from where user runs the script
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 maindir="$(dirname "$scriptdir")"
-logs=$maindir/logs
 
 # study-specific inputs
 TASK=cardgame
@@ -20,6 +19,7 @@ sm=6 # this is already hard coded into all fsf files
 sub=$1
 run=$2
 ppi=$3 # 0 for activation, otherwise seed region or network
+logfile=$4
 
 
 # set inputs and general outputs (should not need to chage across studies in Smith Lab)
@@ -29,7 +29,7 @@ DATA=${maindir}/derivatives/fmriprep/sub-${sub}/func/sub-${sub}_task-${TASK}_run
 NVOLUMES=`fslnvols ${DATA}`
 CONFOUNDEVS=${maindir}/derivatives/fsl/confounds/sub-${sub}/sub-${sub}_task-${TASK}_run-${run}_desc-fslConfounds.tsv
 if [ ! -e $CONFOUNDEVS ]; then
-	echo "missing: $CONFOUNDEVS " >> ${logs}/re-runL1.log
+	echo "missing: $CONFOUNDEVS " >> $logfile
 	exit # exiting to ensure nothing gets run without confounds
 fi
 EVDIR=${maindir}/derivatives/fsl/EVfiles/sub-${sub}/run-0${run}
@@ -42,7 +42,7 @@ if [ "$ppi" == "ecn" -o "$ppi" == "dmn" ]; then
 	if [ -e ${OUTPUT}.feat/cluster_mask_zstat1.nii.gz ]; then
 		exit
 	else
-		echo "missing: $OUTPUT " >> ${logs}/re-runL1.log
+		echo "running: $OUTPUT " >> $logfile
 		rm -rf ${OUTPUT}.feat
 	fi
 
@@ -106,7 +106,7 @@ else # otherwise, do activation and seed-based ppi
 	if [ -e ${OUTPUT}.feat/cluster_mask_zstat1.nii.gz ]; then
 		exit
 	else
-		echo "missing: $OUTPUT " >> ${logs}/re-runL1.log
+		echo "running: $OUTPUT " >> $logfile
 		rm -rf ${OUTPUT}.feat
 	fi
 

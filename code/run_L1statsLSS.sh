@@ -3,10 +3,10 @@
 # ensure paths are correct irrespective from where user runs the script
 scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 basedir="$(dirname "$scriptdir")"
-logs=$basedir/logs
 
-# remove previous log. this is mainly useful when re-running everything to check for completion
-rm -rf ${logs}/re-runL1.log
+# create log file to record what we did and when
+logs=$basedir/logs
+logfile=${logs}/rerunL1-LSS_date-`date +"%FT%H%M"`.log
 
 # loops through the subject/run list
 cat ${scriptdir}/runcount_excluded.tsv |
@@ -34,7 +34,7 @@ while read subrun; do
 			  	while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 			    		sleep 1s
 			  	done
-			  	bash $SCRIPTNAME $sub $run $ppi $trial &
+			  	bash $SCRIPTNAME $sub $run $ppi $trial $logfile &
 			done
 	  done
 
