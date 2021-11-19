@@ -140,3 +140,6 @@ bids/**/*.nii.gz
 derivatives/fsl
 derivatives/fmriprep
 sub-*.html
+
+# other files
+*.out
