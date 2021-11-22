@@ -9,9 +9,8 @@ logs=$basedir/logs
 logfile=${logs}/rerunL2_date-`date +"%FT%H%M"`.log
 
 # analyses we are doing; these define input/output paths in the L2stats.sh script
-for analysisinfo in "type-act 9"; do
-#for analysisinfo in "type-ppi_seed-bilateralVLPFC 19" "type-ppi_seed-leftVLPFC 19" "type-ppi_seed-rightVLPFC 19" "type-ppi_seed-preCun 19" "type-ppi_seed-bilateralVS 19" "type-ppi_seed-rightVS 19" "type-ppi_seed-leftVS 19"; do
-
+#for analysisinfo in "type-act 9"; do
+for analysisinfo in "type-ppi_seed-striatum 19" "type-ppi_seed-FPole 19" "type-ppi_seed-interactionC1 19" "type-ppi_seed-interactionC2 19" "type-ppi_seed-interactionC3 19" "type-ppi_seed-interactionC4 19" "type-ppi_seed-interactionC5 19"; do
 	set -- ${analysisinfo}
 	analysis=$1
 	ncopes=$2
