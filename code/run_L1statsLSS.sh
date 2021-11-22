@@ -23,14 +23,14 @@ while read subrun; do
 			# skip the bad runs
 			if [ $sub -eq 217 ] && [ $run -eq 2 ]; then
 				continue
-			elif [ $sub -eq 232 ] && [ $run -eq 4 ]; then
+			elif [ $sub -eq 232 ] && [ $run -eq 3 ]; then
 				continue
 			fi
 
 			for trial in `seq 64`; do
 			  	# Manages the number of jobs and cores
 			  	SCRIPTNAME=${basedir}/code/L1statsLSS.sh
-			  	NCORES=47
+			  	NCORES=20
 			  	while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 			    		sleep 1s
 			  	done

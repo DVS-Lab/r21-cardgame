@@ -27,7 +27,7 @@ elif [ $sub -eq 232 ]; then
 	nruns=3
 	INPUT1=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-01_sm-${sm}.feat
 	INPUT2=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-02_sm-${sm}.feat
-	INPUT3=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-03_sm-${sm}.feat
+	INPUT3=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-04_sm-${sm}.feat
 else
 	INPUT1=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-01_sm-${sm}.feat
 	INPUT2=${MAINOUTPUT}/L1_task-${task}_model-01_${analysis}_run-02_sm-${sm}.feat
