@@ -16,7 +16,7 @@ while read subrun; do
 	nruns=$2
 
 	# analyses we are doing; these define input/output paths in the L1stats.sh script
-	for ppi in 0 striatum FPole interactionC1 interactionC2 interactionC3 interactionC4 interactionC5; do # putting 0 first will indicate "activation"
+	for ppi in 0 ecn dmn striatum FPole interactionC1 interactionC2 interactionC3 interactionC4 interactionC5; do # putting 0 first will indicate "activation"
 
 		for run in `seq ${nruns}`; do
 
@@ -30,7 +30,7 @@ while read subrun; do
 			for trial in `seq 64`; do
 			  	# Manages the number of jobs and cores
 			  	SCRIPTNAME=${basedir}/code/L1statsLSS.sh
-			  	NCORES=20
+			  	NCORES=30
 			  	while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 			    		sleep 1s
 			  	done
