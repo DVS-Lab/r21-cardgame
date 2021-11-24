@@ -9,7 +9,7 @@ logs=$basedir/logs
 logfile=${logs}/rerunL1_date-`date +"%FT%H%M"`.log
 
 # analyses we are doing; these define input/output paths in the L1stats.sh script
-for ppi in 0 ecn dmn striatum FPole interactionC1 interactionC2 interactionC3 interactionC4 interactionC5; do # putting 0 first will indicate "activation"
+for ppi in 0 ecn dmn striatum; do # putting 0 first will indicate "activation"
 
 	# loops through the subject/run list
 	cat ${scriptdir}/runcount.tsv |
