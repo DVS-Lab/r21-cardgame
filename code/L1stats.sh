@@ -99,9 +99,11 @@ if [ "$ppi" == "ecn" -o "$ppi" == "dmn" -o "$ppi" == "rfpn" -o "$ppi" == "lfpn" 
 	-e 's@INPUT0@'$INPUT0'@g' \
 	-e 's@INPUT1@'$INPUT1'@g' \
 	-e 's@INPUT2@'$INPUT2'@g' \
+	-e 's@INPUT3@'$INPUT3'@g' \
 	-e 's@INPUT4@'$INPUT4'@g' \
 	-e 's@INPUT5@'$INPUT5'@g' \
 	-e 's@INPUT6@'$INPUT6'@g' \
+	-e 's@INPUT7@'$INPUT7'@g' \
 	-e 's@INPUT8@'$INPUT8'@g' \
 	-e 's@INPUT9@'$INPUT9'@g' \
 	<$ITEMPLATE> $OTEMPLATE
