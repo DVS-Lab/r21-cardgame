@@ -35,7 +35,7 @@ fi
 EVDIR=${maindir}/derivatives/fsl/EVfiles/sub-${sub}/run-0${run}
 
 # if network (ecn or dmn), do nppi; otherwise, do activation or seed-based ppi
-if [ "$ppi" == "ecn" -o "$ppi" == "dmn" ]; then
+if [ "$ppi" == "ecn" -o "$ppi" == "dmn" -o "$ppi" == "rfpn" -o "$ppi" == "lfpn" ]; then
 
 	# check for output and skip existing
 	OUTPUT=${MAINOUTPUT}/L1_task-${TASK}_model-01_type-nppi-${ppi}_run-0${run}_sm-${sm}
@@ -59,19 +59,35 @@ if [ "$ppi" == "ecn" -o "$ppi" == "dmn" ]; then
 		eval INPUT${net}=$TSFILE
 	done
 
-	# set names for network ppi (we generally only care about ECN and DMN)
-	DMN=$INPUT3
-	ECN=$INPUT7
+	# set names for network ppi
 	if [ "$ppi" == "dmn" ]; then
+		DMN=$INPUT3
+		ECN=$INPUT7
 		MAINNET=$DMN
 		OTHERNET=$ECN
-	else
+		ITEMPLATE=${maindir}/templates/L1_template-m01_netppi.fsf
+	elif [ "$ppi" == "ecn" ]; then
+		DMN=$INPUT3
+		ECN=$INPUT7
 		MAINNET=$ECN
 		OTHERNET=$DMN
+		ITEMPLATE=${maindir}/templates/L1_template-m01_netppi.fsf
+	elif [ "$ppi" == "rfpn" ]; then
+		RFPN=$INPUT8
+		LFPN=$INPUT9
+		MAINNET=$RFPN
+		OTHERNET=$LFPN
+		ITEMPLATE=${maindir}/templates/L1_template-m01_netppi_FPN.fsf
+	elif [ "$ppi" == "lfpn" ]; then
+		RFPN=$INPUT8
+		LFPN=$INPUT9
+		MAINNET=$LFPN
+		OTHERNET=$RFPN
+		ITEMPLATE=${maindir}/templates/L1_template-m01_netppi_FPN.fsf
 	fi
 
+
 	# create template and run analyses
-	ITEMPLATE=${maindir}/templates/L1_template-m01_netppi.fsf
 	OTEMPLATE=${MAINOUTPUT}/L1_task-${TASK}_model-01_seed-${ppi}_run-0${run}.fsf
 	sed -e 's@OUTPUT@'$OUTPUT'@g' \
 	-e 's@NVOLUMES@'$NVOLUMES'@g' \
