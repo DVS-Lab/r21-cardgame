@@ -11,7 +11,7 @@ logs=$maindir/logs
 logfile=${logs}/rerunL3_date-`date +"%FT%H%M"`.log
 
 # this loop defines the different types of analyses that will go into the group comparisons
-for analysistype in type-act type-ppi_seed-striatum type-ppi_seed-FPole type-ppi_seed-interactionC1 type-ppi_seed-interactionC2 type-ppi_seed-interactionC3 type-ppi_seed-interactionC4 type-ppi_seed-interactionC5; do
+for analysistype in type-nppi-lfpn type-nppi-rfpn type-nppi-ecn type-nppi-dmn; do
 #for analysistype in type-ppi_seed-bilateralVLPFC type-ppi_seed-leftVLPFC type-ppi_seed-rightVLPFC type-ppi_seed-preCun type-ppi_seed-bilateralVS type-ppi_seed-rightVS type-ppi_seed-leftVS; do
 
 	# these define the cope number (copenum) and cope name (copename)
