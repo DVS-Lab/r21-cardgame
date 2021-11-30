@@ -30,7 +30,7 @@ while read subrun; do
 			for trial in `seq 64`; do
 			  	# Manages the number of jobs and cores
 			  	SCRIPTNAME=${basedir}/code/L1statsLSS.sh
-			  	NCORES=30
+			  	NCORES=44
 			  	while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 			    		sleep 1s
 			  	done
