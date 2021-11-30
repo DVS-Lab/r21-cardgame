@@ -16,7 +16,7 @@ copename=$2
 REPLACEME=$3 # this defines the parts of the path that differ across analyses
 logfile=$4
 
-MAINOUTPUT=${maindir}/derivatives/fsl/L3_model-01_task-${task}_n31_FLAME1
+MAINOUTPUT=${maindir}/derivatives/fsl/L3_model-01_task-${task}_n31_FLAME1_wCovs
 mkdir -p $MAINOUTPUT
 
 # set outputs and check for existing
@@ -27,7 +27,7 @@ if [ -e ${OUTPUT}.gfeat/cope1.feat/cluster_mask_zstat1.nii.gz ]; then
 	# run randomise if output doesn't exist and the contrasts (copes) are valid
 	cd ${OUTPUT}.gfeat/cope1.feat
 	if [ ! -e randomise_tfce_corrp_tstat2.nii.gz ] && [ $copenum -ge 5 ]; then
-		randomise -i filtered_func_data.nii.gz -o randomise -d design.mat -t design.con -m mask.nii.gz -T -c 2.3 -n 10000
+		randomise -i filtered_func_data.nii.gz -o randomise -d design.mat -t design.con -m mask.nii.gz -T -c 3.1 -n 10000
 	fi
 
 else # try to run feat and clean up previous effort with partial output
@@ -36,7 +36,7 @@ else # try to run feat and clean up previous effort with partial output
 	rm -rf ${OUTPUT}.gfeat
 
 	# create template and run FEAT analyses
-	ITEMPLATE=${maindir}/templates/L3_template_n31.fsf
+	ITEMPLATE=${maindir}/templates/L3_template_n31_wCovs.fsf
 	OTEMPLATE=${MAINOUTPUT}/L3_task-${task}_${REPLACEME}_copenum-${copenum}_onegroup.fsf
 	sed -e 's@OUTPUT@'$OUTPUT'@g' \
 	-e 's@COPENUM@'$copenum'@g' \
