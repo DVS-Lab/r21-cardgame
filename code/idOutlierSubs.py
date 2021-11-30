@@ -57,7 +57,7 @@ for task in df_full.task.unique():
     	os.makedirs(outdir)
 
     # These are the identities of outlier runs
-    outfile="outliers_task-%s_runinfo.tsv"%(task)
+    outfile="outliers_task-%s_runinfo_onerun.tsv"%(task)
     output=outdir+outfile
     print(df[df['outlier_run_Custom1']==True])
     df=df.sort_values(by='Sub')
@@ -65,7 +65,7 @@ for task in df_full.task.unique():
 
     # separate good subjects (GS) and bad subject (BS)
     GS=df[df['outlier_run_Custom1']==False]
-    GS=list(GS.Sub.value_counts().reset_index(name="count").query("count > 1")['index']) # more than 1 good run
+    GS=list(GS.Sub.value_counts().reset_index(name="count").query("count > 0")['index']) # more than 0 good run
     BS=df[~df.Sub.isin(GS)]['Sub']
 
     # output covariates for group-level models
@@ -75,7 +75,7 @@ for task in df_full.task.unique():
     df_cov=df_cov[['Sub']+keys]
     df_cov[['tsnr','fd_mean']]=df_cov[['tsnr','fd_mean']].apply(zscore)
     df_cov=df_cov.sort_values(by='Sub')
-    outfile="outliers_task-%s_covariates.tsv"%(task)
+    outfile="outliers_task-%s_covariates_onerun.tsv"%(task)
     output=outdir+outfile
     df_cov.to_csv(output,sep='\t',index=False,float_format='%.4f')
 
@@ -83,6 +83,6 @@ for task in df_full.task.unique():
     df_out=df[df.Sub.isin(BS)]
     df_out=df_out.Sub.value_counts().reset_index().rename(columns={'index':'Sub_num'})
     df_out=df_out.sort_values(by='Sub_num')
-    outfile="outliers_task-%s_customSubOutlier.tsv"%(task)
+    outfile="outliers_task-%s_customSubOutlier_onerun.tsv"%(task)
     output=outdir+outfile
     df_out.to_csv(output,sep='\t',index=False,float_format='%.4f')
