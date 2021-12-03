@@ -16,7 +16,7 @@ copename=$2
 REPLACEME=$3 # this defines the parts of the path that differ across analyses
 logfile=$4
 
-MAINOUTPUT=${maindir}/derivatives/fsl/L3_model-01_task-${task}_n31_FLAME1_wCovs
+MAINOUTPUT=${maindir}/derivatives/fsl/L3_model-01_task-${task}_n28_FLAME1+2_newPPI
 mkdir -p $MAINOUTPUT
 
 # set outputs and check for existing
@@ -36,7 +36,7 @@ else # try to run feat and clean up previous effort with partial output
 	rm -rf ${OUTPUT}.gfeat
 
 	# create template and run FEAT analyses
-	ITEMPLATE=${maindir}/templates/L3_template_n31_wCovs.fsf
+	ITEMPLATE=${maindir}/templates/L3_template_n28.fsf
 	OTEMPLATE=${MAINOUTPUT}/L3_task-${task}_${REPLACEME}_copenum-${copenum}_onegroup.fsf
 	sed -e 's@OUTPUT@'$OUTPUT'@g' \
 	-e 's@COPENUM@'$copenum'@g' \
