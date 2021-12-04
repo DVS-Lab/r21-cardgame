@@ -11,9 +11,8 @@ logs=$maindir/logs
 logfile=${logs}/rerunL3_date-`date +"%FT%H%M"`.log
 
 # this loop defines the different types of analyses that will go into the group comparisons
-for analysistype in type-ppi_seed-VS; do
-#for analysistype in type-act type-ppi_seed-rightVS type-ppi_seed-leftVS type-nppi-lfpn type-nppi-rfpn type-nppi-ecn type-nppi-dmn; do
-#for analysistype in type-ppi_seed-bilateralVLPFC type-ppi_seed-leftVLPFC type-ppi_seed-rightVLPFC type-ppi_seed-preCun type-ppi_seed-bilateralVS type-ppi_seed-rightVS type-ppi_seed-leftVS; do
+for analysistype in type-act type-ppi_seed-VS type-ppi_seed-rightVS type-ppi_seed-leftVS type-nppi-lfpn type-nppi-rfpn type-nppi-ecn type-nppi-dmn; do
+
 
 	# these define the cope number (copenum) and cope name (copename)
 	for copeinfo in "1 R_vlpfc" "2 R_tpj" "3 P_vlpfc" "4 P_tpj" "5 R-P" "6 vlpfc-tpj" "7 R_vlpfc-tpj" "8 P_vlpfc-tpj" "9 interaction" "10 phys" "11 ppi_R_vlpfc" "12 ppi_R_tpj" "13 ppi_P_vlpfc" "14 ppi_P_tpj" "15 ppi_R-P" "16 ppi_vlpfc-tpj" "17 ppi_R_vlpfc-tpj" "18 ppi_P_vlpfc-tpj" "19 ppi_interaction"; do
@@ -29,7 +28,7 @@ for analysistype in type-ppi_seed-VS; do
 			continue
 		fi
 
-		NCORES=15
+		NCORES=10
 		SCRIPTNAME=${maindir}/code/L3stats.sh
 		while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 			sleep 1s
