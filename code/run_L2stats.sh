@@ -10,7 +10,7 @@ logfile=${logs}/rerunL2_date-`date +"%FT%H%M"`.log
 
 # analyses we are doing; these define input/output paths in the L2stats.sh script
 #for analysisinfo in "type-act 9"; do
-for analysisinfo in "type-act 9" "type-ppi_seed-rightVS 19" "type-ppi_seed-leftVS 19" "type-nppi-lfpn 28" "type-nppi-rfpn 28" "type-nppi-ecn 28" "type-nppi-dmn 28"; do
+for analysisinfo in "type-act 9" "type-ppi_seed-VS 19" "type-nppi-lfpn 28" "type-nppi-rfpn 28" "type-nppi-ecn 28" "type-nppi-dmn 28"; do
 	set -- ${analysisinfo}
 	analysis=$1
 	ncopes=$2
