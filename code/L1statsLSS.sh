@@ -153,7 +153,7 @@ else # otherwise, do activation and seed-based ppi
 	else
 		PHYS=${MAINOUTPUT}/ts_task-${TASK}_mask-${ppi}_run-0${run}.txt
 		MASK=${maindir}/masks/seed-${ppi}.nii.gz
-		fslmeants -i $DATA -o $PHYS -m $MASK
+		fslmeants -i $DATA -o $PHYS -m $MASK --eig
 		sed -e 's@OUTPUT@'$OUTPUT'@g' \
 		-e 's@DATA@'$DATA'@g' \
 		-e 's@SINGLETRIAL@'$SINGLETRIAL'@g' \

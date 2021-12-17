@@ -16,7 +16,7 @@ while read subrun; do
 	nruns=$2
 
 	# analyses we are doing; these define input/output paths in the L1stats.sh script
-	for ppi in lfpn rfpn 0 ecn dmn leftVS rightVS; do # putting 0 first will indicate "activation"
+	for ppi in lfpn rfpn 0 ecn dmn VS rightVS leftVS; do # putting 0 first will indicate "activation"
 
 		for run in `seq ${nruns}`; do
 
