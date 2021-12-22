@@ -8,8 +8,10 @@ maindir="$(dirname "$scriptdir")"
 TASK=cardgame
 sm=6
 
+
+
 # analyses we are doing; these define input/output paths in the L1stats.sh script
-for ppi in 0 leftVLPFC leftVS rightVS; do # putting 0 first will indicate "activation"
+for ppi in 0 lfpn rfpn ecn dmn rightVS leftVS; do # putting 0 first will indicate "activation"
 
 	# loops through the subject/run list
 	cat ${scriptdir}/runcount_excluded.tsv |
@@ -25,7 +27,7 @@ for ppi in 0 leftVLPFC leftVS rightVS; do # putting 0 first will indicate "activ
 			# skip the bad runs
 			if [ $sub -eq 217 ] && [ $run -eq 2 ]; then
 				continue
-			elif [ $sub -eq 232 ] && [ $run -eq 4 ]; then
+			elif [ $sub -eq 232 ] && [ $run -eq 3 ]; then
 				continue
 			fi
 
@@ -41,32 +43,35 @@ for ppi in 0 leftVLPFC leftVS rightVS; do # putting 0 first will indicate "activ
 			out_meants=${maindir}/derivatives/singletrial/sub-${sub}
 			mkdir -p ${out_meants}
 
+
 			if [ "${ppi}" == "0" ]; then
-				for mask in act-leftVLPFC act-PCC act-rightVLPFC act-preSMA act-thalamus act-rightParietal; do
+				for mask in act-lVLPFC act-IFG act-rVLPFC act-SMA act-thalamus; do
 					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
 					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
 						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
 						-m ${maskfile}
 				done
-			elif [ "${ppi}" == "leftVLPFC" ]; then
-				for mask in leftVLPFCconn-DLPFC leftVLPFCconn-MPFC leftVLPFCconn-PCC; do
+			elif [ "${ppi}" == "rfpn" ]; then
+				for mask in conn_rFPN_VLPFC conn_rFPN_VLPFC; do
 					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
 					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
 						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
 						-m ${maskfile}
 				done
 			elif [ "${ppi}" == "leftVS" ]; then
-				mask=leftVSconn-visual
-				maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
-				fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
-					-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
-					-m ${maskfile}
+				for mask in conn_leftVS_LPFC conn_leftVS_dACC conn_leftVS_visual; do
+					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
+					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
+						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
+						-m ${maskfile}
+				done
 			elif [ "${ppi}" == "rightVS" ]; then
-				mask=rightVSconn-DLPFC
-				maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
-				fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
-					-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
-					-m ${maskfile}
+				for mask in conn_rightVS_dACC conn_rightVS_dPrecun conn_rightVS_vPrecun; do
+					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
+					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
+						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
+						-m ${maskfile}
+				done
 			else
 				"error: mask not found"
 			fi
