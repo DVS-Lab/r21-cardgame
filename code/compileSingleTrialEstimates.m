@@ -38,7 +38,7 @@ for i = 1:length(subrun)
         d = struct2cell(d);
         d = d(1,1:end);
         for j = 1:length(d)
-            if i < length(d)
+            if j < length(d)
                 roi_list = [roi_list d{:,j}(:,1:end-7) ','];
             else
                 roi_list = [roi_list d{:,j}(:,1:end-7)];

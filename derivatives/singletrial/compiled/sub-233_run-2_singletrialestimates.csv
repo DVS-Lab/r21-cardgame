@@ -1,4 +1,4 @@
-sub,run,trial,act_IFGact_SMAact_lVLPFCact_rVLPFCact_thalamusconn_leftVS_LPFCconn_leftVS_dACCconn_leftVS_visualconn_rFPN_VLPFCconn_rFPN_precunconn_rightVS_dACCconn_rightVS_dPrecunconn_rightVS_vPrecun
+sub,run,trial,act_IFG,act_SMA,act_lVLPFC,act_rVLPFC,act_thalamus,conn_leftVS_LPFC,conn_leftVS_dACC,conn_leftVS_visual,conn_rFPN_VLPFC,conn_rFPN_precun,conn_rightVS_dACC,conn_rightVS_dPrecun,conn_rightVS_vPrecun
 233,2,1,0.5507,-1.2914,0.62418,0.49217,-0.071469,-0.59603,1.1611,-0.16134,0.088985,1.7143,-0.73066,-0.2112,-1.4043
 233,2,2,-0.47744,-0.96635,0.30676,0.37428,-0.22647,-0.30298,1.292,-0.48909,-0.20541,-1.1332,-0.60416,0.35441,-0.28175
 233,2,3,-0.673,-1.212,0.16045,-0.23781,-0.36784,-0.3186,0.0012441,-0.90431,0.1725,-0.68643,-1.1236,-0.31148,-0.57851
