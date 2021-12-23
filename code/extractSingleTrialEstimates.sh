@@ -11,7 +11,8 @@ sm=6
 
 
 # analyses we are doing; these define input/output paths in the L1stats.sh script
-for ppi in 0 lfpn rfpn ecn dmn rightVS leftVS; do # putting 0 first will indicate "activation"
+#for ppi in 0 lfpn rfpn ecn dmn rightVS leftVS; do # putting 0 first will indicate "activation"
+for ppi in 0 rfpn rightVS leftVS; do # putting 0 first will indicate "activation"
 
 	# loops through the subject/run list
 	cat ${scriptdir}/runcount_excluded.tsv |
@@ -36,8 +37,8 @@ for ppi in 0 lfpn rfpn ecn dmn rightVS leftVS; do # putting 0 first will indicat
 			MAINOUTPUT=${maindir}/derivatives/fsl/sub-${sub}
 			zoutdir=${MAINOUTPUT}/LSS-images_task-${TASK}_model-02_conn-${ppi}_run-0${run}_sm-${sm}
 			cd $zoutdir
-			#rm -rf sub-${sub}*.nii.gz
-			#fslmerge -t sub-${sub}_run-0${run}_conn-${ppi}_merged_z zstat_trial-*.nii.gz
+			rm -rf sub-${sub}*.nii.gz
+			fslmerge -t sub-${sub}_run-0${run}_conn-${ppi}_merged_z zstat_trial-*.nii.gz
 
 			# output for extractions
 			out_meants=${maindir}/derivatives/singletrial/sub-${sub}
@@ -45,14 +46,14 @@ for ppi in 0 lfpn rfpn ecn dmn rightVS leftVS; do # putting 0 first will indicat
 
 
 			if [ "${ppi}" == "0" ]; then
-				for mask in act-lVLPFC act-IFG act-rVLPFC act-SMA act-thalamus; do
+				for mask in act_lVLPFC act_IFG act_rVLPFC act_SMA act_thalamus; do
 					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
 					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
 						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
 						-m ${maskfile}
 				done
 			elif [ "${ppi}" == "rfpn" ]; then
-				for mask in conn_rFPN_VLPFC conn_rFPN_VLPFC; do
+				for mask in conn_rFPN_VLPFC conn_rFPN_precun; do
 					maskfile=${maindir}/masks/singletrial-masks/${mask}.nii.gz
 					fslmeants -i ${zoutdir}/sub-${sub}_run-0${run}_conn-${ppi}_merged_z.nii.gz \
 						-o ${out_meants}/sub-${sub}_run-0${run}_mask-${mask}.txt \
