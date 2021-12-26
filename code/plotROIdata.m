@@ -7,6 +7,15 @@ cd ..
 maindir = pwd;
 roidir = fullfile(maindir,'derivatives','imaging_plots');
 
+% load individual differences
+% cov-3: reward+
+% cov-4: reward-
+% cov-5: punish+
+% cov-6: punish-
+% cov-7: reward-punish
+% cov-8: punish-reward
+
+
 % loop through rois for activation
 rois = {'bilateralVLPFC', 'bilateralVS'};
 for r = 1:length(rois)
@@ -57,3 +66,11 @@ for r = 1:length(rois)
     
 end
 
+% T = readtable('participants.csv');
+% T.C_pun = c1;
+% T.C_rew = c2;
+% T.F_pun = c3;
+% T.F_rew = c4;
+% T.S_pun = c5;
+% T.S_rew = c6;
+% writetable(T,fullfile(roidir,['summary_ROI-' roi '_zimg.csv']))
