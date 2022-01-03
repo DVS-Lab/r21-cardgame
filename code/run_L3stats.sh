@@ -11,7 +11,8 @@ logs=$maindir/logs
 logfile=${logs}/rerunL3_date-`date +"%FT%H%M"`.log
 
 # this loop defines the different types of analyses that will go into the group comparisons
-for analysistype in type-act type-ppi_seed-VS type-ppi_seed-rightVS type-ppi_seed-leftVS type-nppi-lfpn type-nppi-rfpn type-nppi-ecn type-nppi-dmn; do
+# skip: type-nppi-lfpn type-nppi-rfpn type-nppi-ecn type-nppi-dmn type-ppi_seed-VS
+for analysistype in type-ppi_seed-rightVS type-ppi_seed-leftVS type-act; do
 
 
 	# these define the cope number (copenum) and cope name (copename)
@@ -28,7 +29,7 @@ for analysistype in type-act type-ppi_seed-VS type-ppi_seed-rightVS type-ppi_see
 			continue
 		fi
 
-		NCORES=10
+		NCORES=36
 		SCRIPTNAME=${maindir}/code/L3stats.sh
 		while [ $(ps -ef | grep -v grep | grep $SCRIPTNAME | wc -l) -ge $NCORES ]; do
 			sleep 1s
