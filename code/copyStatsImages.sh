@@ -5,6 +5,7 @@ scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 basedir="$(dirname "$scriptdir")"
 
 sm=6
+task=cardgame
 
 # loops through the subject/run list
 cat ${scriptdir}/runcount.tsv |
