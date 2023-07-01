@@ -143,3 +143,5 @@ sub-*.html
 
 # other files
 *.out
+derivatives/neurovault
+derivatives/neurovault.tar.gz
