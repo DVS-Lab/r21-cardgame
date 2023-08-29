@@ -55,6 +55,7 @@ for sub in `ls -1d $bidsdir/sub-*`; do
 	--nthreads 12 \
 	--cifti-output 91k \
 	--output-spaces fsLR fsaverage MNI152NLin6Asym MNI152NLin2009cAsym \
+	--skip-bids-validation \
 	--fs-license-file /opts/fs_license.txt -w /scratch >> $logdir/cmd_fmriprep_${PBS_JOBID}.txt
 done
 
