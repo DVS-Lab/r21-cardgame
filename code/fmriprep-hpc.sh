@@ -13,7 +13,7 @@ module load singularity/3.8.5
 cd $PBS_O_WORKDIR
 
 # ensure paths are correct
-maindir=~/work/rf1-data-hpc #this should be the only line that has to change if the rest of the script is set up correctly
+maindir=~/work/r21-cardgame #this should be the only line that has to change if the rest of the script is set up correctly
 scriptdir=$maindir/code
 bidsdir=$maindir/bids
 logdir=$maindir/logs
