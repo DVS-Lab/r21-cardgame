@@ -9,7 +9,7 @@ sm=6
 task=cardgame
 
 # loops through the subject/run list
-cat ${scriptdir}/runcount.tsv |
+cat ${scriptdir}/runcount_excluded.tsv |
 while read subruninfo; do
 	set -- ${subruninfo}
 	sub=$1

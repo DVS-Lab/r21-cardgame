@@ -26,10 +26,6 @@ sub-211_task-cardgame_run-01
 sub-211_task-cardgame_run-02
 sub-211_task-cardgame_run-03
 sub-211_task-cardgame_run-04
-sub-212_task-cardgame_run-01
-sub-212_task-cardgame_run-02
-sub-212_task-cardgame_run-03
-sub-212_task-cardgame_run-04
 sub-213_task-cardgame_run-01
 sub-213_task-cardgame_run-02
 sub-213_task-cardgame_run-03
@@ -50,10 +46,6 @@ sub-217_task-cardgame_run-01
 sub-217_task-cardgame_run-03
 sub-216_task-cardgame_run-03
 sub-216_task-cardgame_run-04
-sub-218_task-cardgame_run-01
-sub-218_task-cardgame_run-02
-sub-218_task-cardgame_run-03
-sub-218_task-cardgame_run-04
 sub-219_task-cardgame_run-01
 sub-219_task-cardgame_run-02
 sub-219_task-cardgame_run-03
@@ -118,7 +110,3 @@ sub-237_task-cardgame_run-01
 sub-237_task-cardgame_run-02
 sub-237_task-cardgame_run-03
 sub-237_task-cardgame_run-04
-sub-238_task-cardgame_run-01
-sub-238_task-cardgame_run-02
-sub-238_task-cardgame_run-03
-sub-238_task-cardgame_run-04
