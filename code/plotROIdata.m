@@ -30,7 +30,7 @@ count = 0;
 
 
 %% loop through rois for activation
-rois = {'rVLPFC', 'thalamus', 'IFG', 'lVLPFC', 'SMA'};
+rois = {'rVLPFC', 'thalamus', 'IFG', 'lVLPFC', 'SMA', 'rightVS'};
 for r = 1:length(rois)
     roi = rois{r};
     
