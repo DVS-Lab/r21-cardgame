@@ -52,7 +52,7 @@ fprintf('**************** PANAS *********************************\n')
     c1PA = compare(lmNoBoldPA,lmActPA);
     c2PA = compare(lmNoBoldPA,lmConnectPA);
     c3PA = compare(lmActPA,lmActConnectPA);
-    % Best model:
+    % Best model with BOLD:
     lmActPA
 
 
@@ -63,7 +63,7 @@ fprintf('**************** PANAS *********************************\n')
     c1NA = compare(lmNoBoldNA,lmActNA);
     c2NA = compare(lmNoBoldNA,lmConnectNA);
     c3NA = compare(lmActNA,lmActConnectNA);
-    % Best model:
+      % Best model with BOLD:
     lmActNA
 
 
