@@ -145,3 +145,5 @@ sub-*.html
 *.out
 derivatives/neurovault
 derivatives/neurovault.tar.gz
+
+roast/*
