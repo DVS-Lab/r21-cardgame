@@ -6,8 +6,8 @@
 %#ok<*UNRCH>
 
 
-doSave          = true;        % Save results to file
-withBoldOnly    = false;         % false means use all available behavioral runs for analysis. true means use only those with QC passed BOLD data.
+doSave          = false;        % Save results to file
+withBoldOnly    = true;         % false means use all available behavioral runs for analysis. true means use only those with QC passed BOLD data.
 
 % Read the data from the TSV files.
 [T] = tsvDataTable('useRunInfo',withBoldOnly,'subjects',1:31);

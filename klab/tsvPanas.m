@@ -5,7 +5,7 @@
 
 %#ok<*UNRCH>
 
-doSave  =true;
+doSave  =false;
 withBoldOnly    = true;         % false means use all available behavioral runs for analysis. true means use only those with QC passed BOLD data.
 % Read the PANAS data from the TSV files.
 [~,~,panasT] = tsvDataTable('useRunInfo',withBoldOnly,'subjects',1:31);
