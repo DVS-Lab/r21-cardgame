@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 # Read archived FEAT products for JN-RM-0845-26. No FSL model is run.
-# Usage: bash code/collect_jneurosci_revision.sh PROJECT_DIR NEW_REPORT_DIR
+# Collect and publish: bash code/collect_jneurosci_revision.sh PROJECT_DIR NEW_REPORT_DIR
+# Publish a completed report: bash code/collect_jneurosci_revision.sh --publish-latest
 set -euo pipefail
+publisher="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/publish_jneurosci_revision.py"
+case "${1:-}" in
+    --publish-latest|--publish-report) exec python3 "$publisher" "$@" ;;
+esac
 if [[ $# -ne 2 ]]; then
-    echo "Usage: bash $0 PROJECT_DIR NEW_REPORT_DIR" >&2
+    echo "Usage: bash $0 PROJECT_DIR NEW_REPORT_DIR | --publish-latest | --publish-report DIRECTORY" >&2
     exit 2
 fi
 python3 - "$1" "$2" <<'PY'
@@ -177,3 +182,4 @@ print("Collected %d candidate models to %s." % (len(groups), report))
 print("Review contrasts.tsv, missing_expected.tsv, group_inputs.tsv and read_errors.txt.")
 print("A missing model or missing table does not establish a thresholded null.")
 PY
+python3 "$publisher" --publish-report "$2"
