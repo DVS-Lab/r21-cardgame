@@ -535,7 +535,77 @@ def select_candidate(records):
     return None, "candidates_disagree" if eligible else ("no_verified_candidate" if records else "no_candidate")
 
 
+REPRO_TEMPLATE = "ffc31bd1507a38152e6284f83f74cbd1ba2b84c08c21e043cc73c66985c63c84"
+
+
+def finished_report(path):
+    if not path.is_file():
+        return False
+    text = path.read_text(errors="replace").lower()
+    return ("finished at" in text and "fatal error" not in text and
+            "errors occured during the analysis" not in text and "errors occurred during the analysis" not in text)
+
+
+def verified_reproduction(record, marks, label, cope):
+    if len(marks) != 1 or label not in ("left VLPFC","right VLPFC") or cope not in (16,19):
+        return None
+    mark = marks[0]
+    folder = record["folder"]
+    if (not record["reproduction_location"] or not record["eligible"] or not full_record(record) or
+            mark.get("analysis") != label or mark.get("cope") != str(cope) or
+            mark.get("template_sha256") != REPRO_TEMPLATE or
+            not re.fullmatch(r"[0-9]{1,2}(?:\.[0-9]{1,3}){1,4}", mark.get("fsl_version","")) or
+            not all(finished_report(folder/name) for name in ("group-report.html","cope-report.html"))):
+        return None
+    for sign, column in ((1,"positive_map_sha256"),(2,"negative_map_sha256")):
+        declared = mark.get(column, "")
+        if (not re.fullmatch(r"[0-9a-f]{64}", declared) or
+                map_digest(folder / ("thresh_zstat%d.nii.gz"%sign)) != declared):
+            return None
+    return {"source_provenance":"historical_group_model_reproduced", "FSL_version":mark["fsl_version"],
+            "original_template_commit":"33becdaa", "template_sha256":REPRO_TEMPLATE}
+
+
+def keep_provenance(model, records, markers, label, cope):
+    for sign in model["signs"]:
+        sign["source_provenance"] = ("archived_group_output" if sign["status"] in
+                ("clusters_reported","no_surviving_clusters","clusters_present_exact_p_unavailable")
+                else "unresolved")
+    model["source_provenance"] = ("archived_group_output" if any(s["source_provenance"] ==
+            "archived_group_output" for s in model["signs"]) else "unresolved")
+    if not records:
+        return
+    supported = []
+    for record in records:
+        meta = verified_reproduction(record, markers.get(record["private_index"],[]), label, cope)
+        if meta:
+            supported.append((record,meta))
+    model["reproduction_candidates"] = len(records)
+    model["verified_reproductions"] = len(supported)
+    # Distinct new FEAT runs can differ slightly. Never silently pick one of multiple fits.
+    if len(supported) != 1:
+        return
+    record,meta = supported[0]
+    model["original_signed_status"] = [s["status"] for s in model["signs"]]
+    replacement = [dict(s, source_provenance="historical_group_model_reproduced") for s in record["signs"]]
+    missing = {"model_missing", "unverified_model", "incomplete_output"}
+    replaced = [s["status"] in missing for s in model["signs"]]
+    if all(replaced):
+        model.update(meta, signs=replacement, model_available=True, design=record["design"],
+                     L2_input_family_match=record["family"], candidate_resolution="verified_reproduction")
+    elif any(replaced):
+        model["signs"] = [r if flag else s for flag,r,s in zip(replaced,replacement,model["signs"])]
+        model["source_provenance"] = "see_signed_result_provenance"
+        model["reproduction"] = meta
+    elif not all(s["status"] in ("clusters_reported","no_surviving_clusters") for s in model["signs"]):
+        # Retain disagreements/incomplete archived p values. Report the reproduction separately.
+        model["separate_reproduction"] = dict(meta, signs=replacement)
+
+
 def resolve(inventory, inputs, report, folders):
+    markers = {}
+    for row in tsv(report / "reproduced_groups.tsv"):
+        markers.setdefault(row.get("id",""),[]).append(row)
     seeds = {}
     for name, (named, fallback, identity) in SEEDS.items():
         base = report / "sources" / "masks"
@@ -559,6 +629,19 @@ def resolve(inventory, inputs, report, folders):
         ids = sorted({r["id"] for r in matched})
         records = [candidate(folders.get(code, report), code, [r for r in matched if r["id"] == code],
                              [r for r in inputs if r["id"] == code], kind, cope, seed_ok) for code in ids]
+        reproduced = []
+        archived = []
+        for code, record in zip(ids, records):
+            paths = [Path(r["group_path"]).parts for r in matched if r["id"] == code]
+            record["private_index"] = code
+            record["reproduction_location"] = all(len(q) == 3 and q[:2] == ("historical-reproduction", TEMPLATE)
+                                                   for q in paths)
+            synthetic = any("historical-reproduction" in q for q in paths)
+            if code in markers or synthetic:
+                reproduced.append(record)
+            else:
+                archived.append(record)
+        records = archived
         selected, why = select_candidate(records)
         model = {"analysis": label, "cope": cope, "contrast": contrast, "model_available": selected is not None,
                  "candidate_resolution": why, "candidate_count": len(records),
@@ -578,6 +661,7 @@ def resolve(inventory, inputs, report, folders):
                     "signs": c["signs"]} for c in records]
             why = "model_missing" if not records else "ambiguous_model"
             model["signs"] = [{"zstat": i, "status": why} for i in (1, 2)]
+        keep_provenance(model, reproduced, markers, label, cope)
         models.append(model)
     return {"seeds": seeds, "models": models}
 
