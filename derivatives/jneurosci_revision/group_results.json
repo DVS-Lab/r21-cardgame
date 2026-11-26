@@ -1,0 +1,279 @@
+{
+  "models": [
+    {
+      "analysis": "activation",
+      "contrast": "R-P",
+      "cope": 5,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "ambiguous_model",
+          "zstat": 1
+        },
+        {
+          "status": "ambiguous_model",
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "activation",
+      "contrast": "interaction",
+      "cope": 9,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "ambiguous_model",
+          "zstat": 1
+        },
+        {
+          "status": "ambiguous_model",
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "right VS",
+      "contrast": "ppi_interaction",
+      "cope": 19,
+      "design": {
+        "FLAME_1_plus_2": true,
+        "N_design": 28.0,
+        "N_group_inputs": 28,
+        "cluster_corrected_alpha": 0.05,
+        "cluster_forming_Z": 3.1,
+        "design_verified": true,
+        "input_cope_match": true,
+        "positive_negative_directions_verified": true,
+        "submitted_cohort_match": true,
+        "whole_brain_cluster_correction": true
+      },
+      "model_available": true,
+      "seed_reference_verified": true,
+      "signs": [
+        {
+          "cluster_labels_readable": true,
+          "cluster_table_readable": true,
+          "clusters": [],
+          "direction": "positive",
+          "local_NIfTI_readable": true,
+          "nonzero_voxels": 0,
+          "original_fslstats_status": "readable",
+          "status": "no_surviving_clusters",
+          "thresholded_map_present": true,
+          "thresholded_map_readable": true,
+          "zstat": 1
+        },
+        {
+          "cluster_labels_readable": true,
+          "cluster_table_readable": true,
+          "clusters": [
+            {
+              "FSL_printed_p": "0.000397",
+              "cluster_corrected_p": 0.000397,
+              "cluster_index": 3,
+              "peak_MNI_mm": [
+                -3.5,
+                -60.5,
+                53.5
+              ],
+              "peak_Z_magnitude": 4.03,
+              "voxels": 35
+            },
+            {
+              "FSL_printed_p": "0.00878",
+              "cluster_corrected_p": 0.00878,
+              "cluster_index": 2,
+              "peak_MNI_mm": [
+                2.5,
+                20.5,
+                35.5
+              ],
+              "peak_Z_magnitude": 4.3,
+              "voxels": 22
+            },
+            {
+              "FSL_printed_p": "0.0194",
+              "cluster_corrected_p": 0.0194,
+              "cluster_index": 1,
+              "peak_MNI_mm": [
+                11.5,
+                -69.5,
+                32.5
+              ],
+              "peak_Z_magnitude": 3.96,
+              "voxels": 19
+            }
+          ],
+          "direction": "negative",
+          "local_NIfTI_readable": true,
+          "nonzero_voxels": 76,
+          "original_fslstats_status": "readable",
+          "status": "clusters_reported",
+          "thresholded_map_present": true,
+          "thresholded_map_readable": true,
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "left VLPFC",
+      "contrast": "ppi_vlpfc-tpj",
+      "cope": 16,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "model_missing",
+          "zstat": 1
+        },
+        {
+          "status": "model_missing",
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "left VLPFC",
+      "contrast": "ppi_interaction",
+      "cope": 19,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "model_missing",
+          "zstat": 1
+        },
+        {
+          "status": "model_missing",
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "left VLPFC",
+      "contrast": "ppi_R_vlpfc-tpj",
+      "cope": 17,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "model_missing",
+          "zstat": 1
+        },
+        {
+          "status": "model_missing",
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "left VLPFC",
+      "contrast": "ppi_P_vlpfc-tpj",
+      "cope": 18,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "model_missing",
+          "zstat": 1
+        },
+        {
+          "status": "model_missing",
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "right VLPFC",
+      "contrast": "ppi_vlpfc-tpj",
+      "cope": 16,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "model_missing",
+          "zstat": 1
+        },
+        {
+          "status": "model_missing",
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "right VLPFC",
+      "contrast": "ppi_interaction",
+      "cope": 19,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "model_missing",
+          "zstat": 1
+        },
+        {
+          "status": "model_missing",
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "right VLPFC",
+      "contrast": "ppi_R_vlpfc-tpj",
+      "cope": 17,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "model_missing",
+          "zstat": 1
+        },
+        {
+          "status": "model_missing",
+          "zstat": 2
+        }
+      ]
+    },
+    {
+      "analysis": "right VLPFC",
+      "contrast": "ppi_P_vlpfc-tpj",
+      "cope": 18,
+      "model_available": false,
+      "signs": [
+        {
+          "status": "model_missing",
+          "zstat": 1
+        },
+        {
+          "status": "model_missing",
+          "zstat": 2
+        }
+      ]
+    }
+  ],
+  "seeds": {
+    "left VLPFC": {
+      "named_seed": {
+        "available": false,
+        "matches_reference": null
+      },
+      "reference_cluster": {
+        "available": true,
+        "matches_reference": true,
+        "voxels": 35
+      }
+    },
+    "right VLPFC": {
+      "named_seed": {
+        "available": false,
+        "matches_reference": null
+      },
+      "reference_cluster": {
+        "available": true,
+        "matches_reference": true,
+        "voxels": 41
+      }
+    },
+    "right VS": {
+      "named_seed": {
+        "available": true,
+        "matches_reference": true,
+        "voxels": 120
+      }
+    }
+  }
+}
