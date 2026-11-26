@@ -666,6 +666,23 @@ def resolve(inventory, inputs, report, folders):
     return {"seeds": seeds, "models": models}
 
 
+RECOVERY_CODES = {
+    "missing_lower_level_inputs", "source_design_unverified", "fsl_unavailable",
+    "fit_failed", "fit_pending", "archived_already_available", "reproduced",
+    "archive_candidates_unresolved", "publication_verification_failed",
+}
+
+
+def recovery_status(report):
+    # Only fixed public categories and integers may leave the private report.
+    checked = {}
+    for row in tsv(report / "recovery_status.tsv"):
+        label, cope, state = (row.get(k) for k in ("analysis", "cope", "status"))
+        if label in ("left VLPFC", "right VLPFC") and cope in ("16", "19") and state in RECOVERY_CODES:
+            checked[(label, int(cope))] = {"analysis": label, "cope": int(cope), "status": state}
+    return [checked[key] for key in sorted(checked)]
+
+
 def group_summary(report: Path) -> dict:
     report = Path(report)
     inventory = tsv(report / "contrasts.tsv")
@@ -682,6 +699,8 @@ def group_summary(report: Path) -> dict:
                 roots = {row["id"]: scratch for row in rows}
                 result = resolve(inventory + rows, inputs + group_inputs, report, roots)
             result["live_recovery"] = diagnostics
+    if (report / "recovery_status.tsv").is_file():
+        result["recovery_status"] = recovery_status(report)
     return result
 
 
