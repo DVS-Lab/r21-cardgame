@@ -2,7 +2,6 @@
   "lower_level": {
     "FSL_verified": true,
     "blocking_reasons": [
-      "bold_grid_or_length_mismatch",
       "missing_original_bold"
     ],
     "counts": {
@@ -13,19 +12,19 @@
       "completed_run_fits": 0,
       "configured_groups": 4,
       "conflicting_source_runs": 0,
-      "confounds_verified": 0,
+      "confounds_verified": 3,
       "different_preprocessing_version_found": 0,
       "launchable_participant_fits": 0,
       "launchable_run_fits": 0,
       "missing_confounds": 0,
       "missing_preprocessed_bold": 76,
-      "preprocessed_bold_verified": 0,
+      "preprocessed_bold_verified": 3,
       "raw_runs_required": 79,
       "required_participant_fits": 56,
       "required_run_fits": 158,
       "reused_run_models": 0,
       "timing_runs_verified": 79,
-      "usable_bold_and_confounds": 0
+      "usable_bold_and_confounds": 3
     },
     "input_status": "missing_or_unverified_inputs"
   },
