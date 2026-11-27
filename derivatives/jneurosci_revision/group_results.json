@@ -1,39 +1,314 @@
 {
+  "live_recovery": {
+    "cortical_evidence": {
+      "left VLPFC": {
+        "16": {
+          "L1_runs_with_archived_seed_design": 0,
+          "L1_runs_with_cope_varcope": 0,
+          "L1_runs_with_cope_varcope_and_DOF": 0,
+          "L2_participants_with_DOF": 0,
+          "L2_participants_with_cope_varcope": 0,
+          "L2_participants_with_matching_run_design": 0,
+          "adjacent_group_designs": 0,
+          "group_directories": 0,
+          "matched_candidate_outputs": 0,
+          "matching_original_inputs": 0
+        },
+        "17": {
+          "adjacent_group_designs": 0,
+          "group_directories": 0,
+          "matched_candidate_outputs": 0,
+          "matching_original_inputs": 0
+        },
+        "18": {
+          "adjacent_group_designs": 0,
+          "group_directories": 0,
+          "matched_candidate_outputs": 0,
+          "matching_original_inputs": 0
+        },
+        "19": {
+          "L1_runs_with_archived_seed_design": 0,
+          "L1_runs_with_cope_varcope": 0,
+          "L1_runs_with_cope_varcope_and_DOF": 0,
+          "L2_participants_with_DOF": 0,
+          "L2_participants_with_cope_varcope": 0,
+          "L2_participants_with_matching_run_design": 0,
+          "adjacent_group_designs": 0,
+          "group_directories": 0,
+          "matched_candidate_outputs": 0,
+          "matching_original_inputs": 0
+        }
+      },
+      "right VLPFC": {
+        "16": {
+          "L1_runs_with_archived_seed_design": 0,
+          "L1_runs_with_cope_varcope": 0,
+          "L1_runs_with_cope_varcope_and_DOF": 0,
+          "L2_participants_with_DOF": 0,
+          "L2_participants_with_cope_varcope": 0,
+          "L2_participants_with_matching_run_design": 0,
+          "adjacent_group_designs": 0,
+          "group_directories": 0,
+          "matched_candidate_outputs": 0,
+          "matching_original_inputs": 0
+        },
+        "17": {
+          "adjacent_group_designs": 0,
+          "group_directories": 0,
+          "matched_candidate_outputs": 0,
+          "matching_original_inputs": 0
+        },
+        "18": {
+          "adjacent_group_designs": 0,
+          "group_directories": 0,
+          "matched_candidate_outputs": 0,
+          "matching_original_inputs": 0
+        },
+        "19": {
+          "L1_runs_with_archived_seed_design": 0,
+          "L1_runs_with_cope_varcope": 0,
+          "L1_runs_with_cope_varcope_and_DOF": 0,
+          "L2_participants_with_DOF": 0,
+          "L2_participants_with_cope_varcope": 0,
+          "L2_participants_with_matching_run_design": 0,
+          "adjacent_group_designs": 0,
+          "group_directories": 0,
+          "matched_candidate_outputs": 0,
+          "matching_original_inputs": 0
+        }
+      }
+    },
+    "eligible_runs": 79,
+    "other_seed_name_candidates_without_matching_inputs": 81,
+    "project_located": true,
+    "submitted_cohort_size": 28
+  },
   "models": [
     {
+      "L2_input_family_match": true,
       "analysis": "activation",
+      "candidate_count": 8,
+      "candidate_resolution": "verified_direct_original",
       "contrast": "R-P",
       "cope": 5,
-      "model_available": false,
+      "design": {
+        "FLAME_1_plus_2": true,
+        "N_design": 28.0,
+        "N_group_inputs": 28,
+        "cluster_corrected_alpha": 0.05,
+        "cluster_forming_Z": 3.1,
+        "design_verified": true,
+        "input_cope_match": true,
+        "positive_negative_directions_verified": true,
+        "submitted_cohort_match": true,
+        "whole_brain_cluster_correction": true
+      },
+      "design_input_matches": 3,
+      "direct_candidates": 1,
+      "model_available": true,
       "signs": [
         {
-          "status": "ambiguous_model",
+          "cluster_labels_readable": true,
+          "cluster_table_readable": true,
+          "clusters": [
+            {
+              "FSL_printed_p": "3.46e-10",
+              "cluster_corrected_p": 3.46e-10,
+              "cluster_index": 4,
+              "peak_MNI_mm": [
+                -9.5,
+                14.5,
+                -0.5
+              ],
+              "peak_Z_magnitude": 5.29,
+              "voxels": 136
+            },
+            {
+              "FSL_printed_p": "2.65e-09",
+              "cluster_corrected_p": 2.65e-09,
+              "cluster_index": 3,
+              "peak_MNI_mm": [
+                20.5,
+                20.5,
+                -3.5
+              ],
+              "peak_Z_magnitude": 4.48,
+              "voxels": 120
+            },
+            {
+              "FSL_printed_p": "0.00234",
+              "cluster_corrected_p": 0.00234,
+              "cluster_index": 2,
+              "peak_MNI_mm": [
+                -18.5,
+                -33.5,
+                59.5
+              ],
+              "peak_Z_magnitude": 4.17,
+              "voxels": 32
+            },
+            {
+              "FSL_printed_p": "0.0158",
+              "cluster_corrected_p": 0.0158,
+              "cluster_index": 1,
+              "peak_MNI_mm": [
+                -51.5,
+                -39.5,
+                2.5
+              ],
+              "peak_Z_magnitude": 4.23,
+              "voxels": 23
+            }
+          ],
+          "direction": "positive",
+          "local_NIfTI_readable": true,
+          "nonzero_voxels": 311,
+          "original_fslstats_status": "readable",
+          "source_provenance": "archived_group_output",
+          "status": "clusters_reported",
+          "thresholded_map_present": true,
+          "thresholded_map_readable": true,
           "zstat": 1
         },
         {
-          "status": "ambiguous_model",
+          "cluster_labels_readable": true,
+          "cluster_table_readable": true,
+          "clusters": [],
+          "direction": "negative",
+          "local_NIfTI_readable": true,
+          "nonzero_voxels": 0,
+          "original_fslstats_status": "readable",
+          "source_provenance": "archived_group_output",
+          "status": "no_surviving_clusters",
+          "thresholded_map_present": true,
+          "thresholded_map_readable": true,
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "archived_group_output",
+      "submitted_map_matches": 1
     },
     {
+      "L2_input_family_match": true,
       "analysis": "activation",
+      "candidate_count": 8,
+      "candidate_resolution": "verified_direct_original",
       "contrast": "interaction",
       "cope": 9,
-      "model_available": false,
+      "design": {
+        "FLAME_1_plus_2": true,
+        "N_design": 28.0,
+        "N_group_inputs": 28,
+        "cluster_corrected_alpha": 0.05,
+        "cluster_forming_Z": 3.1,
+        "design_verified": true,
+        "input_cope_match": true,
+        "positive_negative_directions_verified": true,
+        "submitted_cohort_match": true,
+        "whole_brain_cluster_correction": true
+      },
+      "design_input_matches": 3,
+      "direct_candidates": 1,
+      "model_available": true,
       "signs": [
         {
-          "status": "ambiguous_model",
+          "cluster_labels_readable": true,
+          "cluster_table_readable": true,
+          "clusters": [
+            {
+              "FSL_printed_p": "0.000355",
+              "cluster_corrected_p": 0.000355,
+              "cluster_index": 5,
+              "peak_MNI_mm": [
+                35.5,
+                56.5,
+                -3.5
+              ],
+              "peak_Z_magnitude": 4.08,
+              "voxels": 41
+            },
+            {
+              "FSL_printed_p": "0.00113",
+              "cluster_corrected_p": 0.00113,
+              "cluster_index": 4,
+              "peak_MNI_mm": [
+                -36.5,
+                56.5,
+                -3.5
+              ],
+              "peak_Z_magnitude": 4.25,
+              "voxels": 35
+            },
+            {
+              "FSL_printed_p": "0.00918",
+              "cluster_corrected_p": 0.00918,
+              "cluster_index": 3,
+              "peak_MNI_mm": [
+                -6.5,
+                -36.5,
+                56.5
+              ],
+              "peak_Z_magnitude": 4.27,
+              "voxels": 25
+            },
+            {
+              "FSL_printed_p": "0.0144",
+              "cluster_corrected_p": 0.0144,
+              "cluster_index": 2,
+              "peak_MNI_mm": [
+                -51.5,
+                -9.5,
+                20.5
+              ],
+              "peak_Z_magnitude": 4.05,
+              "voxels": 23
+            },
+            {
+              "FSL_printed_p": "0.0288",
+              "cluster_corrected_p": 0.0288,
+              "cluster_index": 1,
+              "peak_MNI_mm": [
+                5.5,
+                -21.5,
+                -0.5
+              ],
+              "peak_Z_magnitude": 4.36,
+              "voxels": 20
+            }
+          ],
+          "direction": "positive",
+          "local_NIfTI_readable": true,
+          "nonzero_voxels": 144,
+          "original_fslstats_status": "readable",
+          "source_provenance": "archived_group_output",
+          "status": "clusters_reported",
+          "thresholded_map_present": true,
+          "thresholded_map_readable": true,
           "zstat": 1
         },
         {
-          "status": "ambiguous_model",
+          "cluster_labels_readable": true,
+          "cluster_table_readable": true,
+          "clusters": [],
+          "direction": "negative",
+          "local_NIfTI_readable": true,
+          "nonzero_voxels": 0,
+          "original_fslstats_status": "readable",
+          "source_provenance": "archived_group_output",
+          "status": "no_surviving_clusters",
+          "thresholded_map_present": true,
+          "thresholded_map_readable": true,
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "archived_group_output",
+      "submitted_map_matches": 1
     },
     {
+      "L2_input_family_match": true,
       "analysis": "right VS",
+      "candidate_count": 6,
+      "candidate_resolution": "verified_direct_original",
       "contrast": "ppi_interaction",
       "cope": 19,
       "design": {
@@ -48,6 +323,8 @@
         "submitted_cohort_match": true,
         "whole_brain_cluster_correction": true
       },
+      "design_input_matches": 2,
+      "direct_candidates": 1,
       "model_available": true,
       "seed_reference_verified": true,
       "signs": [
@@ -59,6 +336,7 @@
           "local_NIfTI_readable": true,
           "nonzero_voxels": 0,
           "original_fslstats_status": "readable",
+          "source_provenance": "archived_group_output",
           "status": "no_surviving_clusters",
           "thresholded_map_present": true,
           "thresholded_map_readable": true,
@@ -109,140 +387,207 @@
           "local_NIfTI_readable": true,
           "nonzero_voxels": 76,
           "original_fslstats_status": "readable",
+          "source_provenance": "archived_group_output",
           "status": "clusters_reported",
           "thresholded_map_present": true,
           "thresholded_map_readable": true,
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "archived_group_output",
+      "submitted_map_matches": 1
     },
     {
       "analysis": "left VLPFC",
+      "candidate_count": 0,
+      "candidate_resolution": "no_candidate",
       "contrast": "ppi_vlpfc-tpj",
       "cope": 16,
+      "design_input_matches": 0,
+      "direct_candidates": 0,
       "model_available": false,
+      "seed_reference_verified": true,
       "signs": [
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 1
         },
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "unresolved"
     },
     {
       "analysis": "left VLPFC",
+      "candidate_count": 0,
+      "candidate_resolution": "no_candidate",
       "contrast": "ppi_interaction",
       "cope": 19,
+      "design_input_matches": 0,
+      "direct_candidates": 0,
       "model_available": false,
+      "seed_reference_verified": true,
       "signs": [
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 1
         },
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "unresolved"
     },
     {
       "analysis": "left VLPFC",
+      "candidate_count": 0,
+      "candidate_resolution": "no_candidate",
       "contrast": "ppi_R_vlpfc-tpj",
       "cope": 17,
+      "design_input_matches": 0,
+      "direct_candidates": 0,
       "model_available": false,
+      "seed_reference_verified": true,
       "signs": [
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 1
         },
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "unresolved"
     },
     {
       "analysis": "left VLPFC",
+      "candidate_count": 0,
+      "candidate_resolution": "no_candidate",
       "contrast": "ppi_P_vlpfc-tpj",
       "cope": 18,
+      "design_input_matches": 0,
+      "direct_candidates": 0,
       "model_available": false,
+      "seed_reference_verified": true,
       "signs": [
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 1
         },
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "unresolved"
     },
     {
       "analysis": "right VLPFC",
+      "candidate_count": 0,
+      "candidate_resolution": "no_candidate",
       "contrast": "ppi_vlpfc-tpj",
       "cope": 16,
+      "design_input_matches": 0,
+      "direct_candidates": 0,
       "model_available": false,
+      "seed_reference_verified": true,
       "signs": [
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 1
         },
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "unresolved"
     },
     {
       "analysis": "right VLPFC",
+      "candidate_count": 0,
+      "candidate_resolution": "no_candidate",
       "contrast": "ppi_interaction",
       "cope": 19,
+      "design_input_matches": 0,
+      "direct_candidates": 0,
       "model_available": false,
+      "seed_reference_verified": true,
       "signs": [
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 1
         },
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "unresolved"
     },
     {
       "analysis": "right VLPFC",
+      "candidate_count": 0,
+      "candidate_resolution": "no_candidate",
       "contrast": "ppi_R_vlpfc-tpj",
       "cope": 17,
+      "design_input_matches": 0,
+      "direct_candidates": 0,
       "model_available": false,
+      "seed_reference_verified": true,
       "signs": [
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 1
         },
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "unresolved"
     },
     {
       "analysis": "right VLPFC",
+      "candidate_count": 0,
+      "candidate_resolution": "no_candidate",
       "contrast": "ppi_P_vlpfc-tpj",
       "cope": 18,
+      "design_input_matches": 0,
+      "direct_candidates": 0,
       "model_available": false,
+      "seed_reference_verified": true,
       "signs": [
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 1
         },
         {
+          "source_provenance": "unresolved",
           "status": "model_missing",
           "zstat": 2
         }
-      ]
+      ],
+      "source_provenance": "unresolved"
     }
   ],
   "seeds": {
