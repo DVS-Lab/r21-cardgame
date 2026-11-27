@@ -80,6 +80,162 @@ def key_for(parts):
     return hashlib.sha256(json.dumps(parts, sort_keys=True).encode()).hexdigest()
 
 
+SPATIAL_TOLERANCE_MM = 0.001
+
+
+def qform_affine(h, endian):
+    """Decode the NIfTI-1 quaternion with the specified voxel sizes and handedness."""
+    b, c, d, x, y, z = struct.unpack_from(endian + "6f", h, 256)
+    qfac, sx, sy, sz = struct.unpack_from(endian + "4f", h, 76)
+    squared = b * b + c * c + d * d
+    if not all(math.isfinite(v) for v in (squared, x, y, z, qfac, sx, sy, sz)) or min(sx, sy, sz) <= 0:
+        return None
+    if squared > 1.00001:
+        return None
+    if 1.0 - squared < 1e-7:
+        norm = math.sqrt(squared)
+        b, c, d = b / norm, c / norm, d / norm
+        a = 0.0
+    else:
+        a = math.sqrt(1.0 - squared)
+    sz *= -1.0 if qfac < 0.0 else 1.0
+    return (
+        (a * a + b * b - c * c - d * d) * sx,
+        2 * (b * c - a * d) * sy,
+        2 * (b * d + a * c) * sz,
+        x,
+        2 * (b * c + a * d) * sx,
+        (a * a + c * c - b * b - d * d) * sy,
+        2 * (c * d - a * b) * sz,
+        y,
+        2 * (b * d - a * c) * sx,
+        2 * (c * d + a * b) * sy,
+        (a * a + d * d - b * b - c * c) * sz,
+        z,
+    )
+
+
+def corner_displacement(first, second):
+    """Maximum Euclidean voxel-center displacement, in mm, over all eight image corners."""
+    if not all(math.isfinite(x) for x in tuple(first) + tuple(second)):
+        return float("inf")
+    squared = []
+    for pos in itertools.product(*[(0, n - 1) for n in SHAPE]):
+        v = pos + (1,)
+        squared.append(
+            sum(sum((first[k + i] - second[k + i]) * v[i] for i in range(4)) ** 2 for k in (0, 4, 8))
+        )
+    return math.sqrt(max(squared))
+
+
+def source_geometry(h):
+    """Classify a source BOLD header. Only storage-identical image grids may enter FEAT."""
+    if len(h) < 348:
+        return "invalid_header", None
+    endian = "<" if h[:4] == struct.pack("<i", 348) else ">"
+    if struct.unpack_from(endian + "i", h, 0)[0] != 348 or h[344:347] != b"n+1":
+        return "invalid_header", None
+    if struct.unpack_from(endian + "3h", h, 42) != SHAPE:
+        return "spatial_dimensions", None
+    if h[123] & 7 != 2:
+        return "unknown_space_units", None
+    qcode, scode = struct.unpack_from(endian + "2h", h, 252)
+    if qcode < 0 or scode < 0:
+        return "invalid_header", None
+    s = struct.unpack_from(endian + "12f", h, 280) if scode else None
+    q = qform_affine(h, endian) if qcode else None
+    if qcode and q is None:
+        return "invalid_header", None
+    if s is None and q is None:
+        return "missing_transform", None
+    if s is not None and q is not None and corner_displacement(s, q) > SPATIAL_TOLERANCE_MM:
+        return "conflicting_transforms", None
+    delta = max(corner_displacement(form, GRID) for form in (s, q) if form is not None)
+    pix = struct.unpack_from(endian + "3f", h, 80)
+    if (
+        any(not math.isfinite(v) for v in pix)
+        or max(abs(v - 3.0) for v in pix) * (max(SHAPE) - 1) > SPATIAL_TOLERANCE_MM
+    ):
+        return "different_grid", delta if math.isfinite(delta) else None
+    if delta <= SPATIAL_TOLERANCE_MM:
+        if s is None:
+            return "equivalent_qform_only", delta
+        if s == GRID and (q is None or q == GRID) and pix == (3.0, 3.0, 3.0):
+            return "exact_sform", delta
+        return "equivalent_roundoff", delta
+    flip = list(GRID)
+    flip[0] = -GRID[0]
+    flip[3] = GRID[3] + GRID[0] * (SHAPE[0] - 1)
+    if all(corner_displacement(form, flip) <= SPATIAL_TOLERANCE_MM for form in (s, q) if form is not None):
+        return "x_reversed_storage", delta
+    return "different_grid", delta if math.isfinite(delta) else None
+
+
+ACCEPTABLE_SOURCE_GEOMETRY = {"exact_sform", "equivalent_roundoff", "equivalent_qform_only"}
+
+
+def mriqc_lengths(project, runs):
+    """MRIQC 0.16.1 computes size_t after discarding dummy_trs, before HMC/FunctionalQC."""
+    desc = json.loads(binary(project, MODEL, "derivatives/mriqc/dataset_description.json"))
+    insist(
+        any(r.get("Name") == "MRIQC" and r.get("Version") == "0.16.1" for r in desc.get("GeneratedBy", [])),
+        "Original MRIQC length convention cannot be established.",
+    )
+    src = io.StringIO(binary(project, MODEL, "derivatives/mriqc/group_bold.tsv").decode())
+    counts = {}
+    for row in csv.DictReader(src, delimiter="\t"):
+        m = re.fullmatch(r"(sub-\d+)_task-cardgame_run-(\d+)_bold", row["bids_name"])
+        if not m or int(m.group(2)) not in runs.get(m.group(1), set()):
+            continue
+        key = (m.group(1), int(m.group(2)))
+        size, dummy = int(row["size_t"]), int(row["dummy_trs"])
+        insist(
+            key not in counts and float(row["spacing_tr"]) == 2.0 and size > 0 and dummy >= 0,
+            "Invalid MRIQC run.",
+        )
+        counts[key] = (size, dummy)
+    insist(len(counts) == 79, "Missing run-specific MRIQC length records.")
+    # Independent acquisition record from the converted DICOM/BIDS sidecars, before
+    # either MRIQC or fMRIPrep. Do not guess run length from a conventional duration.
+    data = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(project),
+            "archive",
+            MODEL,
+            "--",
+            "bids/sub-*/func/*_task-cardgame_run-*_bold.json",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    insist(data.returncode == 0, "Missing original BIDS acquisition sidecars.")
+    acquisition = {}
+    with tarfile.open(fileobj=io.BytesIO(data.stdout)) as archive:
+        for entry in archive:
+            if not entry.isfile():
+                continue
+            match = re.fullmatch(r"bids/(sub-\d+)/func/\1_task-cardgame_run-(\d+)_bold[.]json", entry.name)
+            if not match:
+                continue
+            key = (match.group(1), int(match.group(2)))
+            if key not in counts:
+                continue
+            metadata = json.load(archive.extractfile(entry))
+            shape = metadata.get("dcmmeta_shape", [])
+            insist(
+                len(shape) == 4 and type(shape[-1]) is int and key not in acquisition,
+                "Invalid original acquisition shape: " + entry.name,
+            )
+            acquisition[key] = shape[-1]
+    insist(
+        set(acquisition) == set(counts) and all(acquisition[k] == sum(v) for k, v in counts.items()),
+        "Full run length disagrees between BIDS acquisition sidecar and MRIQC.",
+    )
+    return counts
+
+
 def grid(path, series=False):
     try:
         with gzip.open(str(path), "rb") as f:
@@ -87,7 +243,10 @@ def grid(path, series=False):
         endian = "<" if h[:4] == struct.pack("<i", 348) else ">"
         dim = struct.unpack_from(endian + "8h", h, 40)
         affine = struct.unpack_from(endian + "12f", h, 280)
-        if (
+        if series:
+            if source_geometry(h)[0] not in ACCEPTABLE_SOURCE_GEOMETRY:
+                return None
+        elif (
             h[344:347] != b"n+1"
             or dim[1:4] != SHAPE
             or affine != GRID
@@ -165,18 +324,11 @@ def assets(project, work):
     insist(len(ev) == 79 * 4, "Incomplete archived run condition timings.")
     launches = binary(project, "6c5d0340", PRIOR_LAUNCH).decode()
     launched = {Path(name).parts[-2:] for name in re.findall(r"^running:\s+(\S+)", launches, re.M)}
-    # This frozen MRIQC table contains the run-wise size_t and spacing_tr fields
-    # from the individual BOLD JSON reports. The preprocessed run keeps every volume.
-    mriqc = csv.DictReader(
-        io.StringIO(binary(project, MODEL, "derivatives/mriqc/group_bold.tsv").decode()), delimiter="\t"
-    )
-    lengths = {}
-    for row in mriqc:
-        m = re.fullmatch(r"(sub-\d+)_task-cardgame_run-(\d+)_bold", row["bids_name"])
-        if m and int(m.group(2)) in runs.get(m.group(1), set()):
-            insist(float(row["spacing_tr"]) == 2.0, "Unexpected original TR.")
-            lengths[(m.group(1), int(m.group(2)))] = int(row["size_t"])
-    insist(len(lengths) == 79, "Cannot verify original volumes for each retained run.")
+    # The FSL design consumes the full fMRIPrep BOLD. MRIQC 0.16.1 passes
+    # n_volumes_to_discard into SanitizeImage before HMC, then stores the HMC
+    # size_t and the separate dummy_trs count. Sum those fields exactly once.
+    counts = mriqc_lengths(project, runs)
+    lengths = {key: size + dummy for key, (size, dummy) in counts.items()}
     for (sub, r, condition), path in ev.items():
         rows = numeric_rows(path)
         insist(
@@ -256,6 +408,15 @@ def confounds(native, final, nvols):
         "Confounds and BOLD lengths or numeric fields disagree: " + str(final or native),
     )
     return ("\n".join("\t".join(format(x, ".17g") for x in row) for row in matrix) + "\n").encode()
+
+
+def decoded_nifti_digest(path):
+    """Equivalent compressed containers must decode to the same entire NIfTI file."""
+    digest = hashlib.sha256()
+    with gzip.open(str(path), "rb") as stream:
+        for chunk in iter(lambda: stream.read(4 * 1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def source_files(roots, sub, run, ev, expected_n, checks):
@@ -397,7 +558,15 @@ def source_files(roots, sub, run, ev, expected_n, checks):
             category,
         )
     if len(matches) > 1:
-        if len({(sha(b), hashlib.sha256(c).hexdigest()) for b, n, c, p in matches}) != 1:
+        identities = set()
+        known = {}
+        for b, n, c, p in matches:
+            stat = b.stat()
+            file_id = (stat.st_dev, stat.st_ino)
+            if file_id not in known:
+                known[file_id] = decoded_nifti_digest(b)
+            identities.add((known[file_id], hashlib.sha256(c).hexdigest()))
+        if len(identities) != 1:
             raise InputError(
                 "Different candidate BOLD/nuisance inputs for %s run %d" % (sub, run), "conflicting_inputs"
             )
@@ -645,19 +814,93 @@ def stage_l1(src, dest, copes):
     register(dest)
 
 
+def stage_equivalent_source(src, dest, nvols, source_digest):
+    """Give FEAT its submitted grid on a private copy, without changing voxel data or scaling."""
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    with gzip.open(str(src), "rb") as stream:
+        header = stream.read(348)
+    match, delta = source_geometry(header)
+    insist(
+        match in ACCEPTABLE_SOURCE_GEOMETRY and grid(src, True) == nvols,
+        "Incompatible source BOLD: " + str(src),
+    )
+    endian = "<" if header[:4] == struct.pack("<i", 348) else ">"
+    qcode, scode = struct.unpack_from(endian + "2h", header, 252)
+    trace = {
+        "original_grid": match,
+        "max_corner_difference_mm": delta,
+        "original_qform_code": qcode,
+        "original_sform_code": scode,
+        "original_header_sha256": hashlib.sha256(header).hexdigest(),
+    }
+    if match == "exact_sform":
+        private_copy(src, dest, source_digest)
+        trace["header_normalized"] = False
+        return trace
+
+    # Only spatial transform fields are modified. Datatype, intensity scale/intercept,
+    # number/order of samples, header extensions and the entire image payload are retained.
+    new = bytearray(header)
+    struct.pack_into(endian + "12f", new, 280, *GRID)
+    struct.pack_into(endian + "h", new, 254, scode or qcode)
+    struct.pack_into(endian + "3f", new, 80, 3.0, 3.0, 3.0)
+    if qcode:
+        struct.pack_into(endian + "f", new, 76, 1.0)
+        struct.pack_into(endian + "6f", new, 256, 0.0, 0.0, 0.0, GRID[3], GRID[7], GRID[11])
+    insist(source_geometry(new)[0] == "exact_sform", "Private grid normalization failed.")
+    ident = hashlib.sha256()
+    with tempfile.NamedTemporaryFile(dir=str(dest.parent), delete=False) as out:
+        tmp = Path(out.name)
+    try:
+        with gzip.open(str(src), "rb") as first, tmp.open("wb") as blob:
+            insist(first.read(348) == header, "Source header changed during private staging.")
+            with gzip.GzipFile(filename="", mode="wb", fileobj=blob, compresslevel=1, mtime=0) as final:
+                final.write(new)
+                for chunk in iter(lambda: first.read(4 * 1024 * 1024), b""):
+                    ident.update(chunk)
+                    final.write(chunk)
+        check = hashlib.sha256()
+        with gzip.open(str(tmp), "rb") as final:
+            insist(final.read(348) == new, "Staged header mismatch.")
+            for chunk in iter(lambda: final.read(4 * 1024 * 1024), b""):
+                check.update(chunk)
+        insist(
+            check.digest() == ident.digest() and grid(tmp, True) == nvols and sha(src) == source_digest,
+            "Private copy did not preserve the source image.",
+        )
+        os.replace(str(tmp), str(dest))
+    finally:
+        if tmp.exists():
+            tmp.unlink()
+    trace.update(header_normalized=True, unchanged_post_header_sha256=ident.hexdigest())
+    return trace
+
+
 def prepare_bold(work, sub, r, item):
     b, n, matrix, conf = item
     label = work / "private_sources" / sub / ("run-%02d" % r)
     target = label / b.name
     meta = label / "source.json"
     sig = sha(b)
-    if not target.is_file() or load_json(meta).get("bold_sha256") != sig or sha(target) != sig:
-        private_copy(b, target, sig)
+    previous = load_json(meta)
+    if (
+        target.is_file()
+        and previous.get("bold_sha256") == sig
+        and previous.get("source_geometry")
+        and sha(target) == previous.get("staged_bold_sha256")
+        and grid(target, True) == n
+    ):
+        geometry = previous["source_geometry"]
+    else:
+        geometry = stage_equivalent_source(b, target, n, sig)
+    staged_sig = sha(target)
     nuisance = label / "confounds.tsv"
     save(nuisance, matrix)
     record = {
         "bold": str(b),
         "bold_sha256": sig,
+        "staged_bold_sha256": staged_sig,
+        "source_geometry": geometry,
         "confounds": str(conf),
         "confounds_sha256": sha(nuisance),
         "volumes": n,
@@ -766,7 +1009,17 @@ def run_l1(work, key, copes, templates, masks, ev, bold, archived, env):
     data, n, conf, record = bold
     spec = templates["L1_template-m01_ppi.fsf"]
     vers = env["CARDGAME_FSL_VERSION"]
-    stamp = key_for([MODEL, TIMINGS, record["bold_sha256"], record["confounds_sha256"], str(n), seed, vers])
+    stamp = key_for(
+        [
+            MODEL,
+            TIMINGS,
+            record.get("staged_bold_sha256", record["bold_sha256"]),
+            record["confounds_sha256"],
+            str(n),
+            seed,
+            vers,
+        ]
+    )
     job = attempt_dir(work / "run_jobs" / sub / ("%s-%02d-%s" % (seed, r, stamp[:18])))
     out = job / l1_name(seed, r)
     fs = job / "design.fsf"
@@ -887,6 +1140,7 @@ def exported_inputs(work, subjects, requested, outputs):
             "cope": cope,
             "source_signature": code,
             "model_commit": MODEL,
+            "source_length_rule": "MRIQC_0.16.1_size_t_plus_dummy_trs",
             "participants": signed,
             "paths": paths,
             "input_sources": [outputs[k][1] for k in keys],
@@ -903,6 +1157,12 @@ def read_cached(work, subjects, requested):
         data = load_json(path)
         key = (data.get("seed"), data.get("cope"))
         if key not in requested or data.get("model_commit") != MODEL:
+            continue
+        # Re-evaluate any private reproductions made under the earlier, truncated-length gate.
+        if (
+            "reproduced" in data.get("input_sources", [])
+            and data.get("source_length_rule") != "MRIQC_0.16.1_size_t_plus_dummy_trs"
+        ):
             continue
         records = data.get("participants", [])
         paths = data.get("paths", [])

@@ -58,6 +58,7 @@ GROUPS = tuple((seed, cope) for seed in hist.SEEDS for cope in hist.COPES)
 SUBDIR = "derivatives/jneurosci_cortical_reproduction"
 RESULT = "derivatives/jneurosci_revision/cortical_reproduction.json"
 PROGRESS = "derivatives/jneurosci_revision/cortical_reproduction_status.json"
+SOURCE_INVENTORY = "derivatives/jneurosci_revision/cortical_source_inventory.json"
 LAUNCH = "logs/rerunL3_date-2021-11-22T2250.log"
 LAUNCH_SHA = "629080f3f7ff11e75bc72f9bf7a394cec369cd915ed50c22b15c696f79a1a397"
 VS = {
@@ -453,7 +454,8 @@ def fit_group(project, work, seed, cope, paths, base, feat, version, vs):
 
 def git_publish(project, path, data):
     """Use an isolated index; never stage working files or push the user's local HEAD."""
-    require(path in (RESULT, PROGRESS), "invalid aggregate export path")
+    labels = {RESULT: "results", PROGRESS: "status", SOURCE_INVENTORY: "source inventory"}
+    require(path in labels, "invalid aggregate export path")
     payload = json.dumps(data, indent=2, sort_keys=True, allow_nan=False) + "\n"
 
     def git(*args, **kwargs):
@@ -498,7 +500,7 @@ def git_publish(project, path, data):
                 "-p",
                 parent,
                 "-m",
-                "Publish JNeurosci cortical connectivity " + ("results" if path == RESULT else "status"),
+                "Publish JNeurosci cortical connectivity " + labels[path],
             )
             try:
                 git("push", "origin", commit + ":refs/heads/main")
