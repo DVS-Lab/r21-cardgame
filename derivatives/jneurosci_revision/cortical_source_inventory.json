@@ -1,0 +1,44 @@
+{
+  "all_79_source_pairs_verified": false,
+  "candidate_file_header_issues_with_original_provenance": {
+    "header_matches": 3
+  },
+  "candidate_file_length_vs_MRIQC": {
+    "matches_size_plus_dummy_only": 3
+  },
+  "candidate_geometry_for_original_provenance": {
+    "exact_sform": 3
+  },
+  "controller_recheck_warranted": true,
+  "earlier_source_counts": {
+    "different_preprocessing_version_found": 0,
+    "missing_preprocessed_bold": 76,
+    "preprocessed_bold_verified": 0,
+    "usable_bold_and_confounds": 0
+  },
+  "n_participants": 28,
+  "n_required_runs": 79,
+  "named_historical_container_file_present": false,
+  "named_project_archives_not_opened": 0,
+  "new_historical_FSL_roots": 0,
+  "participants_with_readable_raw_T1w": 28,
+  "participants_with_readable_raw_fieldmap_images": 28,
+  "raw_byte_identical_to_MRIQC": 79,
+  "raw_runs_with_matching_acquisition_length_and_TR": 79,
+  "remaining_run_blockers": {
+    "missing_original_bold": 76
+  },
+  "run_counts_by_source_class": {
+    "other_space_or_preprocessing_description": 3,
+    "verified_original_provenance": 3
+  },
+  "runs_with_dated_design_full_length_confirmed": 0,
+  "runs_with_dated_design_length_disagreement": 0,
+  "runs_with_existing_design_target": 3,
+  "runs_with_inconsistent_dated_nuisance_matrix": 0,
+  "runs_with_nuisance_target_from_dated_original_design": 0,
+  "runs_with_possible_standard_space_workflow_intermediate": 0,
+  "runs_with_preprocessed_2009cAsym_candidates": 3,
+  "runs_with_saved_original_design_path": 79,
+  "runs_with_verified_BOLD_and_nuisance": 3
+}
