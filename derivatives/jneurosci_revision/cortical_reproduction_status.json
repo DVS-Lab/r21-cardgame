@@ -1,55 +1,52 @@
 {
   "lower_level": {
     "FSL_verified": true,
-    "blocking_reasons": [
-      "missing_original_bold"
-    ],
+    "blocking_reasons": [],
     "counts": {
       "archived_participant_contrasts": 0,
       "cached_groups": 0,
-      "completed_groups": 0,
-      "completed_participant_fits": 0,
-      "completed_run_fits": 0,
+      "completed_groups": 4,
+      "completed_participant_fits": 56,
+      "completed_run_fits": 158,
       "configured_groups": 4,
       "conflicting_source_runs": 0,
-      "confounds_verified": 3,
+      "confounds_verified": 79,
       "different_preprocessing_version_found": 0,
-      "launchable_participant_fits": 0,
-      "launchable_run_fits": 0,
+      "launchable_participant_fits": 56,
+      "launchable_run_fits": 158,
       "missing_confounds": 0,
-      "missing_preprocessed_bold": 76,
-      "preprocessed_bold_verified": 3,
+      "missing_preprocessed_bold": 0,
+      "preprocessed_bold_verified": 79,
       "raw_runs_required": 79,
       "required_participant_fits": 56,
       "required_run_fits": 158,
       "reused_run_models": 0,
       "timing_runs_verified": 79,
-      "usable_bold_and_confounds": 3
+      "usable_bold_and_confounds": 79
     },
-    "input_status": "missing_or_unverified_inputs"
+    "input_status": "ready"
   },
   "models": [
     {
       "cope": 16,
       "seed": "interactionC4",
-      "state": "lower_inputs_or_fit_unavailable"
+      "state": "reproduced"
     },
     {
       "cope": 19,
       "seed": "interactionC4",
-      "state": "lower_inputs_or_fit_unavailable"
+      "state": "reproduced"
     },
     {
       "cope": 16,
       "seed": "interactionC5",
-      "state": "lower_inputs_or_fit_unavailable"
+      "state": "reproduced"
     },
     {
       "cope": 19,
       "seed": "interactionC5",
-      "state": "lower_inputs_or_fit_unavailable"
+      "state": "reproduced"
     }
   ],
-  "phase": "blocked",
-  "verified_models": []
+  "phase": "complete"
 }
