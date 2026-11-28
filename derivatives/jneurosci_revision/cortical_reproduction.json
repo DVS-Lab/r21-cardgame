@@ -1,0 +1,245 @@
+{
+  "analysis": "gPPI; one-sample FLAME 1+2",
+  "cluster_corrected_alpha": 0.05,
+  "historical_design_commit": "33becdaa",
+  "historical_group_template_sha256": "ffc31bd1507a38152e6284f83f74cbd1ba2b84c08c21e043cc73c66985c63c84",
+  "models": [
+    {
+      "FSL_version": "6.0.7.17",
+      "contrast": "ppi_vlpfc-tpj",
+      "cope": 16,
+      "participant_inputs": {
+        "archived": 0,
+        "reproduced": 28
+      },
+      "seed": "interactionC4",
+      "seed_voxels": 35,
+      "signed_results": [
+        {
+          "clusters": [],
+          "direction": "positive",
+          "status": "no_surviving_clusters",
+          "submitted_block_VS_mask_overlap": {
+            "left": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 136
+            },
+            "right": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 120
+            }
+          },
+          "surviving_voxels": 0,
+          "thresholded_map_sha256": "f558f9323e51c4ef4b9481b396800b0f69be23071a4df20e5951905cf0bf28ed"
+        },
+        {
+          "clusters": [
+            {
+              "FSL_printed_p": "0.00432",
+              "cluster_corrected_p": 0.00432,
+              "cluster_index": 1,
+              "peak_MNI_mm": [
+                -48.5,
+                23.5,
+                -0.5
+              ],
+              "peak_Z_magnitude": 4.09,
+              "voxels": 25
+            }
+          ],
+          "direction": "negative",
+          "status": "clusters_reported",
+          "submitted_block_VS_mask_overlap": {
+            "left": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 136
+            },
+            "right": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 120
+            }
+          },
+          "surviving_voxels": 25,
+          "thresholded_map_sha256": "07d69e42d641368d0eb211806b98dbef55d111ad8e22fac408ee7f032bc070df"
+        }
+      ],
+      "source": "reproduced"
+    },
+    {
+      "FSL_version": "6.0.7.17",
+      "contrast": "ppi_interaction",
+      "cope": 19,
+      "participant_inputs": {
+        "archived": 0,
+        "reproduced": 28
+      },
+      "seed": "interactionC4",
+      "seed_voxels": 35,
+      "signed_results": [
+        {
+          "clusters": [],
+          "direction": "positive",
+          "status": "no_surviving_clusters",
+          "submitted_block_VS_mask_overlap": {
+            "left": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 136
+            },
+            "right": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 120
+            }
+          },
+          "surviving_voxels": 0,
+          "thresholded_map_sha256": "f558f9323e51c4ef4b9481b396800b0f69be23071a4df20e5951905cf0bf28ed"
+        },
+        {
+          "clusters": [
+            {
+              "FSL_printed_p": "0.0364",
+              "cluster_corrected_p": 0.0364,
+              "cluster_index": 1,
+              "peak_MNI_mm": [
+                44.5,
+                35.5,
+                29.5
+              ],
+              "peak_Z_magnitude": 4.4,
+              "voxels": 17
+            }
+          ],
+          "direction": "negative",
+          "status": "clusters_reported",
+          "submitted_block_VS_mask_overlap": {
+            "left": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 136
+            },
+            "right": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 120
+            }
+          },
+          "surviving_voxels": 17,
+          "thresholded_map_sha256": "7062fec0823d68abd19aa245c341bd01ab8976cfb5299299a1519d8052849de9"
+        }
+      ],
+      "source": "reproduced"
+    },
+    {
+      "FSL_version": "6.0.7.17",
+      "contrast": "ppi_vlpfc-tpj",
+      "cope": 16,
+      "participant_inputs": {
+        "archived": 0,
+        "reproduced": 28
+      },
+      "seed": "interactionC5",
+      "seed_voxels": 41,
+      "signed_results": [
+        {
+          "clusters": [],
+          "direction": "positive",
+          "status": "no_surviving_clusters",
+          "submitted_block_VS_mask_overlap": {
+            "left": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 136
+            },
+            "right": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 120
+            }
+          },
+          "surviving_voxels": 0,
+          "thresholded_map_sha256": "f558f9323e51c4ef4b9481b396800b0f69be23071a4df20e5951905cf0bf28ed"
+        },
+        {
+          "clusters": [],
+          "direction": "negative",
+          "status": "no_surviving_clusters",
+          "submitted_block_VS_mask_overlap": {
+            "left": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 136
+            },
+            "right": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 120
+            }
+          },
+          "surviving_voxels": 0,
+          "thresholded_map_sha256": "f558f9323e51c4ef4b9481b396800b0f69be23071a4df20e5951905cf0bf28ed"
+        }
+      ],
+      "source": "reproduced"
+    },
+    {
+      "FSL_version": "6.0.7.17",
+      "contrast": "ppi_interaction",
+      "cope": 19,
+      "participant_inputs": {
+        "archived": 0,
+        "reproduced": 28
+      },
+      "seed": "interactionC5",
+      "seed_voxels": 41,
+      "signed_results": [
+        {
+          "clusters": [],
+          "direction": "positive",
+          "status": "no_surviving_clusters",
+          "submitted_block_VS_mask_overlap": {
+            "left": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 136
+            },
+            "right": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 120
+            }
+          },
+          "surviving_voxels": 0,
+          "thresholded_map_sha256": "f558f9323e51c4ef4b9481b396800b0f69be23071a4df20e5951905cf0bf28ed"
+        },
+        {
+          "clusters": [],
+          "direction": "negative",
+          "status": "no_surviving_clusters",
+          "submitted_block_VS_mask_overlap": {
+            "left": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 136
+            },
+            "right": {
+              "overlap_by_cluster": {},
+              "overlapping_voxels": 0,
+              "reference_voxels": 120
+            }
+          },
+          "surviving_voxels": 0,
+          "thresholded_map_sha256": "f558f9323e51c4ef4b9481b396800b0f69be23071a4df20e5951905cf0bf28ed"
+        }
+      ],
+      "source": "reproduced"
+    }
+  ],
+  "n_participants": 28,
+  "n_runs": 79,
+  "whole_brain_cluster_forming_Z": 3.1
+}
